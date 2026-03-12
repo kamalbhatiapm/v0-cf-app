@@ -7,37 +7,43 @@ interface LogoProps {
 
 export function Logo({ className, iconOnly = false }: LogoProps) {
   return (
-    <div className={cn("flex items-center gap-2.5", className)}>
-      {/* Geometric Falcon with Double Chevron - v2-b Style */}
+    <div className={cn("flex items-center gap-3", className)}>
+      {/* Geometric Falcon Diving - Simplified v2-b Style */}
       <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         className="flex-shrink-0"
       >
-        {/* Lower chevron arrow shape */}
-        <polygon
-          points="2,12 8,7 14,7 8,12 14,17 8,17"
+        {/* Left wing - upper parallelogram */}
+        <path
+          d="M 4 8 L 12 4 L 14 10 L 6 14 Z"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Upper chevron arrow shape - offset */}
-        <polygon
-          points="7,3 13,0 19,0 13,6 19,12 13,12"
+        {/* Right wing - upper parallelogram */}
+        <path
+          d="M 18 10 L 20 4 L 28 8 L 26 14 Z"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Falcon head - small geometric shape */}
-        <polygon
-          points="18,2 20,4 19,7 17,5"
+        {/* Center body - narrow pointing down */}
+        <path
+          d="M 14 12 L 18 12 L 16 26 L 14 26 Z"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Falcon eye dot */}
-        <circle cx="19" cy="4" r="0.8" fill="currentColor" className="text-accent" />
+        {/* Falcon head - small pentagon at top right */}
+        <path
+          d="M 22 10 L 26 12 L 25 16 L 21 15 Z"
+          fill="currentColor"
+          className="text-accent"
+        />
+        {/* Eye dot */}
+        <circle cx="23.5" cy="12.5" r="1" fill="currentColor" className="text-accent" />
       </svg>
 
       {!iconOnly && (
