@@ -12,32 +12,32 @@ export function Logo({ className, iconOnly = false }: LogoProps) {
       <svg
         width="28"
         height="28"
-        viewBox="0 0 40 40"
+        viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         className="flex-shrink-0"
       >
-        {/* Lower chevron arrow shape - wider spacing */}
+        {/* Lower chevron arrow shape */}
         <polygon
-          points="4,20 14,12 24,12 14,20 24,28 14,28"
+          points="2,12 8,7 14,7 8,12 14,17 8,17"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Upper chevron arrow shape - offset and larger */}
+        {/* Upper chevron arrow shape - offset */}
         <polygon
-          points="12,6 22,0 32,0 22,10 32,20 22,20"
+          points="7,3 13,0 19,0 13,6 19,12 13,12"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Falcon head - geometric trapezoid/pentagon shape */}
+        {/* Falcon head - small geometric shape */}
         <polygon
-          points="30,4 33,7 31,12 28,9"
+          points="18,2 20,4 19,7 17,5"
           fill="currentColor"
           className="text-accent"
         />
         {/* Falcon eye dot */}
-        <circle cx="31.5" cy="7" r="1.5" fill="currentColor" className="text-accent" />
+        <circle cx="19" cy="4" r="0.8" fill="currentColor" className="text-accent" />
       </svg>
 
       {!iconOnly && (
