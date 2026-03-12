@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Logo } from "@/components/logo";
 
 const navigation = [
   { name: "Features", href: "#features" },
@@ -19,13 +20,8 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <div className="flex lg:flex-1">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
-              <span className="text-sm font-bold text-accent-foreground">CF</span>
-            </div>
-            <span className="text-lg font-semibold text-foreground">
-              CalmFalcon<span className="text-accent">.ai</span>
-            </span>
+          <Link href="/" className="flex items-center">
+            <Logo />
           </Link>
         </div>
 

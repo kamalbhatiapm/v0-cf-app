@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Github, Twitter, Linkedin } from "lucide-react";
+import { Logo } from "@/components/logo";
 
 const navigation = {
   product: [
@@ -40,13 +41,8 @@ export function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
-                <span className="text-sm font-bold text-accent-foreground">CF</span>
-              </div>
-              <span className="text-lg font-semibold text-foreground">
-                CalmFalcon<span className="text-accent">.ai</span>
-              </span>
+            <Link href="/">
+              <Logo />
             </Link>
             <p className="max-w-xs text-sm text-muted-foreground">
               AI-powered signal intelligence for platform leaders. 
