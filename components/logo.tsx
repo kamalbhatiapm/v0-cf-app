@@ -13,8 +13,8 @@ export function Logo({ className, iconOnly = false }: LogoProps) {
       <Image
         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-v2-b-7FyMiCx0z6u8TsI3XvHuKbXZAKGKHi.png"
         alt="CalmFalcon"
-        width={32}
-        height={32}
+        width={44}
+        height={44}
         className="flex-shrink-0"
         priority
       />
