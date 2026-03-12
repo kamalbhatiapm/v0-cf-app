@@ -8,7 +8,7 @@ interface LogoProps {
 export function Logo({ className, iconOnly = false }: LogoProps) {
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
-      {/* Diving Falcon - Three Parallelogram Shapes */}
+      {/* Geometric Falcon with Double Chevron - v2-b Style */}
       <svg
         width="32"
         height="32"
@@ -17,24 +17,26 @@ export function Logo({ className, iconOnly = false }: LogoProps) {
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        {/* Left wing parallelogram */}
+        {/* Lower chevron arrow shape */}
         <polygon
-          points="4,8 12,4 14,10 6,14"
+          points="2,18 10,10 18,10 10,18 18,26 10,26"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Right wing parallelogram */}
+        {/* Upper chevron arrow shape - offset */}
         <polygon
-          points="18,10 20,4 28,8 26,14"
+          points="10,6 18,0 26,0 18,8 26,16 18,16"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Center body parallelogram - narrow and pointed down */}
+        {/* Falcon head - geometric trapezoid/pentagon shape */}
         <polygon
-          points="13,12 19,12 16,28 14,28"
+          points="26,4 28,6 27,10 24,8"
           fill="currentColor"
           className="text-accent"
         />
+        {/* Falcon eye dot */}
+        <circle cx="27" cy="6" r="1.2" fill="currentColor" className="text-accent" />
       </svg>
 
       {!iconOnly && (
