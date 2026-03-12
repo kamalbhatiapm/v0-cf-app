@@ -20,7 +20,7 @@ export function Logo({ className, iconOnly = false }: LogoProps) {
       />
 
       {!iconOnly && (
-        <span className="text-lg font-semibold tracking-tight text-accent font-sans">
+        <span className="text-lg font-semibold tracking-tight text-foreground font-sans">
           CalmFalcon<span className="text-accent">.ai</span>
         </span>
       )}
