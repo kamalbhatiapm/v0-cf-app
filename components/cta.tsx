@@ -6,9 +6,12 @@ export function CTA() {
     <section className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-16">
-          {/* Background decoration */}
-          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent/5 blur-3xl" />
+          {/* LangChain-style glow */}
+          <div className="absolute inset-0 -z-10 overflow-hidden rounded-2xl">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[700px] rounded-full bg-[rgb(127,200,255)] opacity-[0.07] blur-[100px]" />
+            <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[rgb(127,200,255)] opacity-[0.05] blur-[60px]" />
+            <div className="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-[rgb(127,200,255)] opacity-[0.05] blur-[60px]" />
+          </div>
 
           <div className="relative mx-auto max-w-2xl text-center">
             <h2 className="text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl">

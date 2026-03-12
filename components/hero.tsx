@@ -4,10 +4,14 @@ import { ArrowRight, Zap } from "lucide-react";
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
-      {/* Background gradient */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/10 via-background to-background" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[500px] w-[800px] bg-accent/5 blur-3xl rounded-full" />
+      {/* LangChain-style radial glow */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Primary large glow bloom — centered top */}
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full bg-[rgb(127,200,255)] opacity-[0.08] blur-[120px]" />
+        {/* Secondary tighter glow for depth */}
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-[300px] w-[500px] rounded-full bg-[rgb(127,200,255)] opacity-[0.06] blur-[80px]" />
+        {/* Subtle floor fade */}
+        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
