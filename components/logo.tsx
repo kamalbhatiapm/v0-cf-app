@@ -10,12 +10,13 @@ export function Logo({ className, iconOnly = false }: LogoProps) {
     <div className={cn("flex items-center gap-2.5", className)}>
       {/* Geometric Falcon with Double Chevron - v2-b Style */}
       <svg
-        width="40"
-        height="40"
+        width="28"
+        height="28"
         viewBox="0 0 40 40"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
+        className="flex-shrink-0"
       >
         {/* Lower chevron arrow shape - wider spacing */}
         <polygon
