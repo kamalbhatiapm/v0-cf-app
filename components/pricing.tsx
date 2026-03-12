@@ -5,19 +5,20 @@ const tiers = [
   {
     name: "Starter",
     price: "Free",
-    description: "For individuals exploring AI ecosystem trends.",
+    period: "for 7 days",
+    description: "Try CalmFalcon risk-free.",
     features: [
       "Weekly signal digest",
       "5 theme clusters",
       "Basic confidence scoring",
       "Community support",
     ],
-    cta: "Get Started",
+    cta: "Start Free Trial",
     highlighted: false,
   },
   {
-    name: "Pro",
-    price: "$99",
+    name: "Professional",
+    price: "$39",
     period: "/month",
     description: "For platform teams making critical decisions.",
     features: [
@@ -28,7 +29,7 @@ const tiers = [
       "Custom watchlists",
       "Priority support",
     ],
-    cta: "Start Free Trial",
+    cta: "Subscribe Now",
     highlighted: true,
   },
   {
@@ -36,7 +37,7 @@ const tiers = [
     price: "Custom",
     description: "For organizations with advanced needs.",
     features: [
-      "Everything in Pro",
+      "Everything in Professional",
       "Custom source integration",
       "Private taxonomy tuning",
       "SSO & advanced security",
