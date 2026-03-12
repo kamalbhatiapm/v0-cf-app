@@ -1,36 +1,46 @@
 import Image from "next/image";
 
 export default function LogoOptionsPage() {
-  const options = [
-    {
-      id: 1,
-      src: "/logo.jpg",
-      title: "Option 1: Geometric Falcon",
-      description: "Sharp angular falcon silhouette in flight, formed from clean geometric lines suggesting speed and precision.",
-    },
-    {
-      id: 2,
-      src: "/logo-option-2.jpg",
-      title: "Option 2: Single Line Falcon",
-      description: "Elegant continuous line forming a stylized falcon head in profile, flowing and calm.",
-    },
-    {
-      id: 3,
-      src: "/logo-option-3.jpg",
-      title: "Option 3: Hexagonal Facets",
-      description: "Abstract hexagonal shape with triangular facets forming a falcon, suggesting data and signals.",
-    },
-    {
-      id: 4,
-      src: "/logo-option-4.jpg",
-      title: "Option 4: Falcon Eye",
-      description: "Minimalist falcon eye representing observation and signal intelligence, ultra-iconic.",
-    },
+  const original = [
     {
       id: 5,
       src: "/logo-option-5.jpg",
-      title: "Option 5: Chevron Wings",
+      title: "Option 5 (Favorite): Chevron Wings",
       description: "Three stacked chevrons forming an abstract F shape, suggesting falcon wings and signal waves.",
+      favorite: true,
+    },
+  ];
+
+  const newOptions = [
+    {
+      id: "A",
+      src: "/logo-v2-a.jpg",
+      title: "Variant A: Double Chevron",
+      description: "Two sharp angular chevrons stacked with a gap — bold, minimal, reads as both an F and a falcon diving.",
+    },
+    {
+      id: "B",
+      src: "/logo-v2-b.jpg",
+      title: "Variant B: Diving Falcon",
+      description: "Three overlapping parallelograms forming spread wings and a narrow body in steep dive, conveying speed.",
+    },
+    {
+      id: "C",
+      src: "/logo-v2-c.jpg",
+      title: "Variant C: Talon Strike",
+      description: "A single bold angular mark like a falcon talon — two geometric arms meeting at a sharp point.",
+    },
+    {
+      id: "D",
+      src: "/logo-v2-d.jpg",
+      title: "Variant D: Symmetrical Wings",
+      description: "A symmetrical downward arrow with broad wings spread outward — balanced, confident, and instantly recognizable.",
+    },
+    {
+      id: "E",
+      src: "/logo-v2-e.jpg",
+      title: "Variant E: Signal Feathers",
+      description: "Three horizontal bars with angled cuts, evoking both signal strength bars and layered falcon feathers.",
     },
   ];
 
@@ -38,19 +48,48 @@ export default function LogoOptionsPage() {
     <main className="min-h-screen bg-background py-16">
       <div className="mx-auto max-w-6xl px-6">
         <h1 className="text-balance text-3xl font-bold text-foreground md:text-4xl">
-          CalmFalcon Logo Options
+          CalmFalcon Logo — Chevron Variants
         </h1>
         <p className="mt-4 text-muted-foreground">
-          Select your preferred logo design. Let me know which one you like best.
+          Five new variations inspired by Option 5. Let me know which one to apply to the site.
         </p>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {options.map((option) => (
+        <div className="mt-4 rounded-xl border border-accent/30 bg-accent/5 p-4">
+          <p className="text-sm text-accent font-medium">Your favorite — Option 5</p>
+        </div>
+
+        <div className="mt-4 grid gap-8 md:grid-cols-1">
+          {original.map((option) => (
+            <div
+              key={option.id}
+              className="group overflow-hidden rounded-xl border-2 border-accent bg-card"
+            >
+              <div className="relative h-64 bg-black">
+                <Image
+                  src={option.src}
+                  alt={option.title}
+                  fill
+                  className="object-contain p-8"
+                />
+              </div>
+              <div className="p-6">
+                <h2 className="font-semibold text-accent">{option.title}</h2>
+                <p className="mt-2 text-sm text-muted-foreground">{option.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <h2 className="mt-12 text-xl font-semibold text-foreground">New Variations</h2>
+        <p className="mt-2 text-sm text-muted-foreground">All inspired by the chevron / geometric wing direction.</p>
+
+        <div className="mt-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {newOptions.map((option) => (
             <div
               key={option.id}
               className="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-accent"
             >
-              <div className="relative aspect-square bg-black p-8">
+              <div className="relative aspect-square bg-black">
                 <Image
                   src={option.src}
                   alt={option.title}
@@ -60,65 +99,10 @@ export default function LogoOptionsPage() {
               </div>
               <div className="p-6">
                 <h2 className="font-semibold text-foreground">{option.title}</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {option.description}
-                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{option.description}</p>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12 rounded-xl border border-border bg-card p-6">
-          <h2 className="font-semibold text-foreground">Current SVG Logo</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            This is the vector logo currently used in the header and footer.
-          </p>
-          <div className="mt-6 flex items-center gap-8">
-            <div className="rounded-lg bg-background p-4">
-              <svg
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-16 w-16"
-              >
-                <path
-                  d="M8 28L20 8L32 28"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-accent"
-                />
-                <path
-                  d="M12 24L20 12L28 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-accent"
-                />
-                <path
-                  d="M20 28V20"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  className="text-accent"
-                />
-                <circle
-                  cx="20"
-                  cy="14"
-                  r="2"
-                  fill="currentColor"
-                  className="text-accent"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">
-                Geometric falcon with layered wing shapes and a centered body.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </main>
