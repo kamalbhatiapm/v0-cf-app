@@ -10,33 +10,33 @@ export function Logo({ className, iconOnly = false }: LogoProps) {
     <div className={cn("flex items-center gap-2.5", className)}>
       {/* Geometric Falcon with Double Chevron - v2-b Style */}
       <svg
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        {/* Lower chevron arrow shape */}
+        {/* Lower chevron arrow shape - wider spacing */}
         <polygon
-          points="2,18 10,10 18,10 10,18 18,26 10,26"
+          points="4,20 14,12 24,12 14,20 24,28 14,28"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Upper chevron arrow shape - offset */}
+        {/* Upper chevron arrow shape - offset and larger */}
         <polygon
-          points="10,6 18,0 26,0 18,8 26,16 18,16"
+          points="12,6 22,0 32,0 22,10 32,20 22,20"
           fill="currentColor"
           className="text-accent"
         />
         {/* Falcon head - geometric trapezoid/pentagon shape */}
         <polygon
-          points="26,4 28,6 27,10 24,8"
+          points="30,4 33,7 31,12 28,9"
           fill="currentColor"
           className="text-accent"
         />
         {/* Falcon eye dot */}
-        <circle cx="27" cy="6" r="1.2" fill="currentColor" className="text-accent" />
+        <circle cx="31.5" cy="7" r="1.5" fill="currentColor" className="text-accent" />
       </svg>
 
       {!iconOnly && (
