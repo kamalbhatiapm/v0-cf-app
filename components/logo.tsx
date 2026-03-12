@@ -8,7 +8,7 @@ interface LogoProps {
 export function Logo({ className, iconOnly = false }: LogoProps) {
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
-      {/* Talon Strike Mark */}
+      {/* Diving Falcon - Three Parallelogram Shapes */}
       <svg
         width="32"
         height="32"
@@ -17,21 +17,21 @@ export function Logo({ className, iconOnly = false }: LogoProps) {
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        {/* Left triangular arm */}
+        {/* Left wing parallelogram */}
         <polygon
-          points="6,12 14,4 16,8"
+          points="4,8 12,4 14,10 6,14"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Right triangular arm */}
+        {/* Right wing parallelogram */}
         <polygon
-          points="26,12 18,4 16,8"
+          points="18,10 20,4 28,8 26,14"
           fill="currentColor"
           className="text-accent"
         />
-        {/* Center talon point */}
+        {/* Center body parallelogram - narrow and pointed down */}
         <polygon
-          points="14,14 18,14 16,28"
+          points="13,12 19,12 16,28 14,28"
           fill="currentColor"
           className="text-accent"
         />
