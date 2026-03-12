@@ -8,7 +8,7 @@ interface LogoProps {
 
 export function Logo({ className, iconOnly = false }: LogoProps) {
   return (
-    <div className={cn("flex items-center gap-3", className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       {/* CalmFalcon v2-b Diving Falcon Logo */}
       <Image
         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-v2-b-7FyMiCx0z6u8TsI3XvHuKbXZAKGKHi.png"
