@@ -113,7 +113,8 @@ function ThemeCard({ theme }: { theme: Theme }) {
                       href={citation.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-muted-foreground hover:text-[rgb(127,200,255)] hover:underline transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-sm text-[rgb(127,200,255)] hover:underline transition-colors"
                     >
                       {citation.title || citation.url}
                     </a>
