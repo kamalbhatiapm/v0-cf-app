@@ -56,7 +56,7 @@ function ThemeCard({ theme }: { theme: Theme }) {
       onClick={() => setExpanded(!expanded)}
       className={`rounded-xl border bg-card p-5 flex flex-col gap-3 cursor-pointer transition-all duration-300 ease-out
         ${expanded
-          ? "border-[rgb(127,200,255)]/70 shadow-[0_0_30px_rgba(127,200,255,0.2)] scale-[1.01]"
+          ? "border-[rgb(127,200,255)]/70 shadow-[0_0_28px_rgba(127,200,255,0.18)]"
           : "border-border hover:border-[rgb(127,200,255)]/60 hover:shadow-[0_0_24px_rgba(127,200,255,0.15)] hover:scale-[1.02] hover:-translate-y-0.5"
         }`}
     >
