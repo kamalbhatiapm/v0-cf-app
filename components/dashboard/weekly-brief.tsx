@@ -61,7 +61,7 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
       <div>
         <div className="flex items-center gap-2 mb-1">
           <FileText className="h-6 w-6 text-[rgb(127,200,255)]" />
-          <h1 className="text-3xl font-bold text-foreground">Weekly Digest</h1>
+          <h1 className="text-3xl font-bold text-foreground">Weekly Brief</h1>
         </div>
         {dateRange && <p className="text-muted-foreground text-sm">{dateRange}</p>}
       </div>
