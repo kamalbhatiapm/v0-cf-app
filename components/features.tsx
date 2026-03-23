@@ -1,45 +1,21 @@
 import {
-  Database,
-  Tags,
   BarChart3,
-  Layers,
   Sparkles,
   ShieldCheck,
 } from "lucide-react";
 
 const features = [
   {
-    name: "Ingestion Agent",
+    name: "Analysis Agent",
     description:
-      "Automatically collects signals from GitHub, arXiv, vendor releases, and top newsletters. Normalizes data into structured objects for processing.",
-    icon: Database,
-    tag: "Data Collection",
-  },
-  {
-    name: "Classification Agent",
-    description:
-      "Uses LLM + taxonomy prompts to categorize signals by domain (Inference, Agents, Governance), detect signal types, and estimate infrastructure relevance.",
-    icon: Tags,
-    tag: "Intelligence",
-  },
-  {
-    name: "Scoring Agent",
-    description:
-      "Computes velocity, breadth, persistence, and confidence scores. Labels signals as Breakout, Accelerating, Rising, Stable, or Cooling.",
+      "Combines classification, scoring, and clustering into one unified agent. Categorizes signals by domain, computes confidence metrics, and groups related signals into cohesive themes for executive briefing.",
     icon: BarChart3,
     tag: "Core Intelligence",
   },
   {
-    name: "Clustering Agent",
-    description:
-      "Groups related signals into themes using embeddings and similarity search. Executives see 5 themes, not 50 raw signals.",
-    icon: Layers,
-    tag: "Synthesis",
-  },
-  {
     name: "Insight Generation Agent",
     description:
-      "Generates citation-backed summaries with 'Why it matters' explanations, platform implications, and watchlist recommendations.",
+      "Generates citation-backed summaries with 'Why it matters' explanations, platform implications, and watchlist recommendations. Turns raw signals into actionable intelligence.",
     icon: Sparkles,
     tag: "Narrative",
   },
@@ -61,7 +37,7 @@ export function Features() {
             Agentic Intelligence
           </h2>
           <p className="mt-2 text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Six agents working in concert
+            Three agents working in concert
           </p>
           <p className="mt-4 text-pretty text-lg text-muted-foreground">
             Our multi-agent architecture transforms raw ecosystem noise into 
