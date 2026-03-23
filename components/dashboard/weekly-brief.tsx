@@ -54,7 +54,7 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
     : null;
 
   // Use the dedicated key_takeaway column
-  const keyTakeaway = brief.key_takeaway || brief.content?.split("\n\n")[0] || brief.content?.slice(0, 300);
+  const keyTakeaway = brief.key_takeaway || brief.content?.split("\n\n").filter(p => !p.startsWith("#"))[0] || brief.content?.slice(0, 300);
 
   return (
     <div className="space-y-6">
