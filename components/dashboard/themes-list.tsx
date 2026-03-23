@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TrendingUp, Bookmark, ChevronDown } from "lucide-react";
+import { TrendingUp, ChevronDown } from "lucide-react";
 
 interface Theme {
   id: string;
@@ -78,18 +78,16 @@ function ThemeCard({ theme }: { theme: Theme }) {
             {theme.signal_count} signal{theme.signal_count !== 1 ? "s" : ""}
           </span>
           <ChevronDown
-            className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+            className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${
+              expanded ? "rotate-180" : ""
+            }`}
           />
         </div>
       </div>
 
-      <h3 className="text-lg font-semibold text-foreground leading-snug">
-        {theme.title}
-      </h3>
+      <h3 className="text-lg font-semibold text-foreground leading-snug">{theme.title}</h3>
 
-      <p className="text-sm text-muted-foreground leading-relaxed">
-        {theme.summary}
-      </p>
+      <p className="text-sm text-muted-foreground leading-relaxed">{theme.summary}</p>
 
       {expanded && (
         <div className="space-y-3 border-t border-border pt-3">
@@ -147,6 +145,7 @@ function ThemeCard({ theme }: { theme: Theme }) {
           </span>
         ))}
       </div>
+    </div>
   );
 }
 
