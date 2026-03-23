@@ -93,6 +93,25 @@ function ThemeCard({ theme }: { theme: Theme }) {
               <p className="text-sm text-muted-foreground">{theme.what_you_can_do}</p>
             </div>
           )}
+          {theme.citations && theme.citations.length > 0 && (
+            <div>
+              <p className="text-xs font-semibold text-[rgb(127,200,255)] mb-2">Sources</p>
+              <ul className="space-y-1">
+                {theme.citations.map((citation, idx) => (
+                  <li key={idx}>
+                    <a
+                      href={citation.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground hover:text-[rgb(127,200,255)] hover:underline transition-colors"
+                    >
+                      {citation.title || citation.url}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 
