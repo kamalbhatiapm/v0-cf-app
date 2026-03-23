@@ -43,7 +43,12 @@ export default async function DashboardPage() {
   const { themes, pipelineRun, weeklyBrief } = await getSignalData();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* LangChain-style radial glow */}
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-[rgb(127,200,255)] opacity-[0.06] blur-[120px]" />
+      </div>
+      
       <Header />
       <main className="container mx-auto px-4 py-8 pt-24">
         <DashboardHeader 
