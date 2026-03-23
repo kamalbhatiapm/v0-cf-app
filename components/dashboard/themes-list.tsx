@@ -118,7 +118,7 @@ function ThemeCard({ theme }: { theme: Theme }) {
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-1">
         <span className="text-xs text-muted-foreground">Confidence</span>
         <div className="flex items-center gap-2">
-          <div className="h-1.5 w-20 rounded-full bg-secondary overflow-hidden">
+          <div className="h-2 w-28 rounded-full bg-white/10 border border-white/10 overflow-hidden">
             <div
               className="h-full rounded-full bg-[rgb(127,200,255)]"
               style={{ width: `${theme.confidence_score}%` }}
