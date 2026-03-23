@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { TrendingUp, ChevronDown } from "lucide-react";
+import { useState } from 'react';
+import { TrendingUp, ChevronDown } from 'lucide-react';
 
 interface Theme {
   id: string;
@@ -13,37 +13,38 @@ interface Theme {
   confidence_score: number;
   signal_count: number;
   citations?: { url: string; title: string }[];
+  processed_at?: string;
 }
 
 interface ThemesListProps {
   themes: Theme[];
 }
 
-const FILTER_TABS = ["All Themes", "Breakout", "Rising", "Emerging", "Stable", "Declining"];
+const FILTER_TABS = ['All Themes', 'Breakout', 'Rising', 'Emerging', 'Stable', 'Declining'];
 
 function getSignalConfig(type: string) {
   switch (type?.toLowerCase()) {
-    case "emerging":
-      return { dot: "bg-green-400", label: "EMERGING", pts: "+4pts" };
-    case "rising":
-      return { dot: "bg-[rgb(127,200,255)]", label: "RISING", pts: "+7pts" };
-    case "breakout":
-    case "breaking":
-      return { dot: "bg-orange-400", label: "BREAKOUT", pts: "+15pts" };
-    case "stable":
-      return { dot: "bg-gray-400", label: "STABLE", pts: "0pts" };
-    case "declining":
-      return { dot: "bg-red-400", label: "DECLINING", pts: "-3pts" };
+    case 'emerging':
+      return { dot: 'bg-green-400', label: 'EMERGING', pts: '+4pts', color: 'text-green-400' };
+    case 'rising':
+      return { dot: 'bg-[rgb(127,200,255)]', label: 'RISING', pts: '+7pts', color: 'text-[rgb(127,200,255)]' };
+    case 'breakout':
+    case 'breaking':
+      return { dot: 'bg-orange-400', label: 'BREAKOUT', pts: '+15pts', color: 'text-orange-400' };
+    case 'stable':
+      return { dot: 'bg-gray-400', label: 'STABLE', pts: '0pts', color: 'text-gray-400' };
+    case 'declining':
+      return { dot: 'bg-red-400', label: 'DECLINING', pts: '-3pts', color: 'text-red-400' };
     default:
-      return { dot: "bg-[rgb(127,200,255)]", label: type?.toUpperCase() ?? "UNKNOWN", pts: "" };
+      return { dot: 'bg-[rgb(127,200,255)]', label: type?.toUpperCase() ?? 'UNKNOWN', pts: '', color: 'text-[rgb(127,200,255)]' };
   }
 }
 
 function extractTags(theme: Theme): string[] {
   if (theme.citations && theme.citations.length > 0) {
-    return theme.citations.slice(0, 4).map((c) => c.title?.split(" ")[0]).filter(Boolean) as string[];
+    return theme.citations.slice(0, 4).map((c) => c.title?.split(' ')[0]).filter(Boolean) as string[];
   }
-  return theme.title.split(" ").filter((w) => w.length > 4).slice(0, 4);
+  return theme.title.split(' ').filter((w) => w.length > 4).slice(0, 4);
 }
 
 function ThemeCard({ theme }: { theme: Theme }) {
@@ -56,10 +57,11 @@ function ThemeCard({ theme }: { theme: Theme }) {
       onClick={() => setExpanded(!expanded)}
       className={`rounded-xl border bg-card p-5 flex flex-col gap-3 cursor-pointer transition-all duration-300 ease-out
         ${expanded
-          ? "border-[rgb(127,200,255)]/70 shadow-[0_0_28px_rgba(127,200,255,0.18)]"
-          : "border-border hover:border-[rgb(127,200,255)]/60 hover:shadow-[0_0_24px_rgba(127,200,255,0.15)] hover:scale-[1.02] hover:-translate-y-0.5"
+          ? 'border-[rgb(127,200,255)]/70 shadow-[0_0_28px_rgba(127,200,255,0.18)]'
+          : 'border-border hover:border-[rgb(127,200,255)]/60 hover:shadow-[0_0_24px_rgba(127,200,255,0.15)] hover:scale-[1.02] hover:-translate-y-0.5'
         }`}
     >
+      {/* Top row: signal type badge + pts + signal count + chevron */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
@@ -75,20 +77,25 @@ function ThemeCard({ theme }: { theme: Theme }) {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">
-            {theme.signal_count} signal{theme.signal_count !== 1 ? "s" : ""}
+            {theme.signal_count} signal{theme.signal_count !== 1 ? 's' : ''}
           </span>
           <ChevronDown
-            className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${
-              expanded ? "rotate-180" : ""
-            }`}
+            className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
           />
         </div>
       </div>
 
-      <h3 className="text-lg font-semibold text-foreground leading-snug">{theme.title}</h3>
+      {/* Title */}
+      <h3 className="text-lg font-semibold text-foreground leading-snug">
+        {theme.title}
+      </h3>
 
-      <p className="text-sm text-muted-foreground leading-relaxed">{theme.summary}</p>
+      {/* Summary */}
+      <p className="text-sm text-muted-foreground leading-relaxed">
+        {theme.summary}
+      </p>
 
+      {/* Expanded content */}
       {expanded && (
         <div className="space-y-3 border-t border-border pt-3">
           {theme.why_it_matters && (
@@ -126,6 +133,7 @@ function ThemeCard({ theme }: { theme: Theme }) {
         </div>
       )}
 
+      {/* Confidence bar + tags */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-1">
         <span className="text-xs text-muted-foreground">Confidence</span>
         <div className="flex items-center gap-2">
@@ -137,9 +145,9 @@ function ThemeCard({ theme }: { theme: Theme }) {
           </div>
           <span className="text-xs font-medium text-foreground">{theme.confidence_score}%</span>
         </div>
-        {tags.map((tag, idx) => (
+        {tags.map((tag) => (
           <span
-            key={`${tag}-${idx}`}
+            key={tag}
             className="rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground"
           >
             {tag}
@@ -151,18 +159,19 @@ function ThemeCard({ theme }: { theme: Theme }) {
 }
 
 export function ThemesList({ themes }: ThemesListProps) {
-  const [activeFilter, setActiveFilter] = useState("All Themes");
+  const [activeFilter, setActiveFilter] = useState('All Themes');
 
   const filtered = themes.filter((t) => {
-    if (activeFilter === "All Themes") return true;
+    if (activeFilter === 'All Themes') return true;
     const type = t.signal_type?.toLowerCase();
     const filter = activeFilter.toLowerCase();
-    if (filter === "breakout") return type === "breakout" || type === "breaking";
+    if (filter === 'breakout') return type === 'breakout' || type === 'breaking';
     return type === filter;
   });
 
   return (
-    <div>
+    <div className="mt-8">
+      {/* Section header + filter tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
         <h2 className="text-xl font-semibold text-foreground">Active Themes</h2>
         <div className="flex flex-wrap gap-2">
@@ -172,8 +181,8 @@ export function ThemesList({ themes }: ThemesListProps) {
               onClick={() => setActiveFilter(tab)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 activeFilter === tab
-                  ? "bg-[rgb(127,200,255)] text-background"
-                  : "border border-border text-muted-foreground hover:text-foreground hover:border-[rgb(127,200,255)]/40"
+                  ? 'bg-[rgb(127,200,255)] text-background'
+                  : 'border border-border text-muted-foreground hover:text-foreground hover:border-[rgb(127,200,255)]/40'
               }`}
             >
               {tab}
@@ -182,6 +191,7 @@ export function ThemesList({ themes }: ThemesListProps) {
         </div>
       </div>
 
+      {/* 2-column grid */}
       {filtered.length === 0 ? (
         <div className="rounded-xl border border-border bg-card flex items-center justify-center h-48">
           <p className="text-muted-foreground text-sm">No themes found for this filter.</p>
