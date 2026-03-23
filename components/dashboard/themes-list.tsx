@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TrendingUp, Bookmark } from "lucide-react";
+import { TrendingUp, Bookmark, ChevronDown } from "lucide-react";
 
 interface Theme {
   id: string;
@@ -52,7 +52,14 @@ function ThemeCard({ theme }: { theme: Theme }) {
   const tags = extractTags(theme);
 
   return (
-    <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-3 hover:border-[rgb(127,200,255)]/30 transition-colors">
+    <div
+      onClick={() => setExpanded(!expanded)}
+      className={`rounded-xl border bg-card p-5 flex flex-col gap-3 cursor-pointer transition-all duration-200
+        ${expanded
+          ? "border-[rgb(127,200,255)]/60 shadow-[0_0_20px_rgba(127,200,255,0.15)]"
+          : "border-border hover:border-[rgb(127,200,255)]/50 hover:shadow-[0_0_16px_rgba(127,200,255,0.1)]"
+        }`}
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
@@ -66,9 +73,14 @@ function ThemeCard({ theme }: { theme: Theme }) {
             <span>{config.pts}</span>
           </div>
         </div>
-        <button className="text-muted-foreground hover:text-foreground transition-colors">
-          <Bookmark className="h-4 w-4" />
-        </button>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">
+            {theme.signal_count} signal{theme.signal_count !== 1 ? "s" : ""}
+          </span>
+          <ChevronDown
+            className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+          />
+        </div>
       </div>
 
       <h3 className="text-lg font-semibold text-foreground leading-snug">
@@ -135,14 +147,6 @@ function ThemeCard({ theme }: { theme: Theme }) {
           </span>
         ))}
       </div>
-
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="text-xs text-[rgb(127,200,255)] hover:underline text-left mt-1"
-      >
-        {expanded ? "Hide details" : `Show details · ${theme.signal_count} signal${theme.signal_count !== 1 ? "s" : ""}`}
-      </button>
-    </div>
   );
 }
 
