@@ -11,6 +11,7 @@ const navigation = [
   { name: "How It Works", href: "#how-it-works" },
   { name: "Use Cases", href: "#use-cases" },
   { name: "Pricing", href: "#pricing" },
+  { name: "Dashboard", href: "/dashboard" },
 ];
 
 export function Header() {
