@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { SignalStats } from "@/components/dashboard/signal-stats";
 import { ThemesList } from "@/components/dashboard/themes-list";
+import { WeeklyBrief } from "@/components/dashboard/weekly-brief";
+import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -20,14 +22,22 @@ async function getSignalData() {
     .limit(1)
     .single();
 
+  const { data: latestBrief } = await supabase
+    .from("weekly_briefs")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
   return {
     themes: currentThemes || [],
     pipelineRun: latestRun,
+    weeklyBrief: latestBrief,
   };
 }
 
 export default async function DashboardPage() {
-  const { themes, pipelineRun } = await getSignalData();
+  const { themes, pipelineRun, weeklyBrief } = await getSignalData();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -41,7 +51,7 @@ export default async function DashboardPage() {
           year={pipelineRun?.year}
         />
         <SignalStats pipelineRun={pipelineRun} />
-        <ThemesList themes={themes} />
+        <DashboardTabs themes={themes} weeklyBrief={weeklyBrief} />
       </div>
     </div>
   );
