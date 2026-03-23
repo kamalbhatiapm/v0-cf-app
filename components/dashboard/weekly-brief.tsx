@@ -8,6 +8,7 @@ interface WeeklyBriefData {
   brief_id: string;
   title: string;
   content: string;
+  key_takeaway: string;
   week_number: number;
   year: number;
   total_themes: number;
@@ -52,8 +53,8 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
     ? `Week of ${getWeekDateRange(brief.week_number, brief.year)}`
     : null;
 
-  // Extract key takeaway from content (first paragraph)
-  const keyTakeaway = brief.content?.split("\n\n")[0] || brief.content?.slice(0, 300);
+  // Use the dedicated key_takeaway column
+  const keyTakeaway = brief.key_takeaway || brief.content?.split("\n\n")[0] || brief.content?.slice(0, 300);
 
   return (
     <div className="space-y-6">
