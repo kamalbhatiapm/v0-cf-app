@@ -67,7 +67,7 @@ export function DashboardTabs({ themes, weeklyBrief }: DashboardTabsProps) {
 
       {/* Tab content */}
       {activeTab === "themes" && <ThemesList themes={themes} />}
-      {activeTab === "brief" && <WeeklyBrief brief={weeklyBrief} />}
+      {activeTab === "brief" && <WeeklyBrief brief={weeklyBrief} themes={themes} />}
     </div>
   );
 }

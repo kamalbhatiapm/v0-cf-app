@@ -1,4 +1,7 @@
-import { FileText, Download, Calendar } from "lucide-react";
+"use client";
+
+import { FileText, Download, Share2, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface WeeklyBriefData {
   id: string;
@@ -15,93 +18,185 @@ interface WeeklyBriefData {
 
 interface WeeklyBriefProps {
   brief?: WeeklyBriefData | null;
+  themes?: any[];
 }
 
-export function WeeklyBrief({ brief }: WeeklyBriefProps) {
+function getSignalConfig(type: string) {
+  switch (type?.toLowerCase()) {
+    case "emerging":
+      return { dot: "bg-cyan-400", label: "EMERGING", color: "text-cyan-400" };
+    case "rising":
+      return { dot: "bg-[rgb(127,200,255)]", label: "RISING", color: "text-[rgb(127,200,255)]" };
+    case "breakout":
+    case "breaking":
+      return { dot: "bg-orange-400", label: "BREAKOUT", color: "text-orange-400" };
+    case "stable":
+      return { dot: "bg-gray-400", label: "STABLE", color: "text-gray-400" };
+    case "declining":
+      return { dot: "bg-red-400", label: "DECLINING", color: "text-red-400" };
+    default:
+      return { dot: "bg-[rgb(127,200,255)]", label: type?.toUpperCase() ?? "UNKNOWN", color: "text-[rgb(127,200,255)]" };
+  }
+}
+
+export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
   if (!brief) {
     return (
       <div className="rounded-xl border border-border bg-card p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <FileText className="h-5 w-5 text-[rgb(127,200,255)]" />
-          <h2 className="text-xl font-semibold text-foreground">Weekly Brief</h2>
-        </div>
         <p className="text-sm text-muted-foreground">No brief available yet.</p>
       </div>
     );
   }
 
-  const generatedDate = brief.generated_at
-    ? new Date(brief.generated_at).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      })
+  const dateRange = brief.week_number && brief.year 
+    ? `Week of ${getWeekDateRange(brief.week_number, brief.year)}`
     : null;
 
-  // Split content into paragraphs for better readability
-  const contentParagraphs = brief.content
-    ?.split("\n\n")
-    .filter((p) => p.trim())
-    .slice(0, 4) || [];
+  // Extract key takeaway from content (first paragraph)
+  const keyTakeaway = brief.content?.split("\n\n")[0] || brief.content?.slice(0, 300);
 
   return (
-    <div className="rounded-xl border border-border bg-card p-6 space-y-5">
-      <div>
-        <div className="flex items-center gap-2 mb-2">
-          <FileText className="h-5 w-5 text-[rgb(127,200,255)]" />
-          <h2 className="text-xl font-semibold text-foreground">{brief.title}</h2>
+    <div className="space-y-6">
+      {/* Header with title and action buttons */}
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <FileText className="h-6 w-6 text-[rgb(127,200,255)]" />
+            <h1 className="text-3xl font-bold text-foreground">Weekly Digest</h1>
+          </div>
+          {dateRange && <p className="text-muted-foreground text-sm">{dateRange}</p>}
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Calendar className="h-3 w-3" />
-          <span>
-            Week {brief.week_number}, {brief.year}
-            {generatedDate && ` — ${generatedDate}`}
-          </span>
-        </div>
-      </div>
-
-      {/* Stats pills */}
-      <div className="flex flex-wrap gap-2">
-        <span className="inline-block rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
-          {brief.total_themes} themes
-        </span>
-        <span className="inline-block rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
-          {brief.total_signals_processed} signals
-        </span>
-      </div>
-
-      {/* Brief content with better spacing */}
-      <div className="space-y-3">
-        {contentParagraphs.length > 0 ? (
-          contentParagraphs.map((paragraph, idx) => (
-            <p
-              key={idx}
-              className="text-sm text-muted-foreground leading-relaxed"
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 border-border text-muted-foreground hover:text-foreground"
+          >
+            <Share2 className="h-4 w-4" />
+            Share Brief
+          </Button>
+          {brief.pdf_url && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 border-border text-muted-foreground hover:text-foreground"
+              asChild
             >
-              {paragraph}
-            </p>
-          ))
-        ) : (
-          <p className="text-sm text-muted-foreground">
-            {brief.content?.slice(0, 400)}
-            {brief.content && brief.content.length > 400 && "..."}
-          </p>
-        )}
+              <a href={brief.pdf_url} target="_blank" rel="noopener noreferrer">
+                <Download className="h-4 w-4" />
+                Export PDF
+              </a>
+            </Button>
+          )}
+          <Button
+            size="sm"
+            className="gap-2 bg-[rgb(127,200,255)] text-background hover:bg-[rgb(100,180,240)]"
+          >
+            <Zap className="h-4 w-4" />
+            Generate AI Digest
+          </Button>
+        </div>
       </div>
 
-      {/* Download button */}
-      {brief.pdf_url && (
-        <a
-          href={brief.pdf_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-secondary px-4 py-2 text-sm text-foreground hover:bg-secondary/80 transition-colors"
-        >
-          <Download className="h-4 w-4" />
-          Download Full Brief (PDF)
-        </a>
-      )}
+      {/* Key Takeaway Section */}
+      <div className="border-l-4 border-[rgb(127,200,255)] bg-[#1a2332] p-5 rounded-r-lg">
+        <p className="text-xs font-semibold tracking-widest text-[rgb(127,200,255)] mb-3 uppercase">
+          Key Takeaway
+        </p>
+        <p className="text-sm text-foreground leading-relaxed mb-4">
+          {keyTakeaway}
+        </p>
+        <div className="flex gap-4 text-xs text-muted-foreground">
+          <span>{brief.total_signals_processed} signals processed</span>
+          <span>•</span>
+          <span>{brief.total_themes} clusters generated</span>
+        </div>
+      </div>
+
+      {/* Top Themes Section */}
+      <div>
+        <h2 className="text-xl font-semibold text-foreground mb-4">Top Themes This Week</h2>
+        <div className="space-y-4">
+          {themes.length > 0 ? (
+            themes.slice(0, 4).map((theme) => (
+              <ThemeBriefCard key={theme.id} theme={theme} />
+            ))
+          ) : (
+            <p className="text-sm text-muted-foreground">No themes available.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
 
+function ThemeBriefCard({ theme }: { theme: any }) {
+  const config = getSignalConfig(theme.signal_type);
+
+  return (
+    <div className="border border-border bg-[#1a2332] p-5 rounded-lg space-y-3">
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            <span className={`h-2 w-2 rounded-full ${config.dot}`} />
+            <span className={`text-xs font-semibold tracking-widest uppercase ${config.color}`}>
+              {config.label}
+            </span>
+          </div>
+          <h3 className="text-lg font-semibold text-foreground leading-snug">
+            {theme.title}
+          </h3>
+        </div>
+        <div className="flex items-center gap-2 shrink-0 ml-4">
+          <div className="h-1.5 w-14 rounded-full bg-white/10 overflow-hidden">
+            <div
+              className={`h-full rounded-full ${config.dot}`}
+              style={{ width: `${theme.confidence_score}%` }}
+            />
+          </div>
+          <span className="text-sm font-medium text-foreground">{theme.confidence_score}%</span>
+        </div>
+      </div>
+
+      <p className="text-sm text-muted-foreground leading-relaxed">
+        {theme.summary}
+      </p>
+
+      {/* Why It Matters */}
+      {theme.why_it_matters && (
+        <div>
+          <p className="text-xs font-semibold tracking-widest text-muted-foreground mb-1 uppercase">
+            Why It Matters
+          </p>
+          <p className="text-sm text-muted-foreground">{theme.why_it_matters}</p>
+        </div>
+      )}
+
+      {/* Platform Implications */}
+      {theme.what_you_can_do && (
+        <div>
+          <p className="text-xs font-semibold tracking-widest text-muted-foreground mb-1 uppercase">
+            Platform Implications
+          </p>
+          <p className="text-sm text-muted-foreground">{theme.what_you_can_do}</p>
+        </div>
+      )}
+
+      {/* Footer */}
+      <div className="text-xs text-muted-foreground pt-2 border-t border-border">
+        Based on {theme.signal_count} supporting signal{theme.signal_count !== 1 ? "s" : ""} · Last updated{" "}
+        {theme.processed_at ? new Date(theme.processed_at).toLocaleDateString("en-US", { year: "numeric", month: "2-digit", day: "2-digit" }) : "N/A"}
+      </div>
+    </div>
+  );
+}
+
+function getWeekDateRange(weekNumber: number, year: number) {
+  const jan1 = new Date(year, 0, 1);
+  const daysOffset = (weekNumber - 1) * 7;
+  const weekStart = new Date(jan1.getTime() + daysOffset * 86400000);
+  const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
+  const fmt = (d: Date) =>
+    d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `${fmt(weekStart)}–${fmt(weekEnd)}, ${year}`;
+}
