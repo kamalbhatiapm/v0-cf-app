@@ -79,24 +79,6 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
           {keyTakeaway}
         </p>
 
-        {/* Top theme summaries */}
-        {themes.length > 0 && (
-          <div className="space-y-2 mb-4 border-t border-border pt-4">
-            {themes.slice(0, 3).map((theme) => {
-              const config = getSignalConfig(theme.signal_type);
-              return (
-                <div key={theme.id} className="flex gap-2">
-                  <span className={`mt-1.5 h-1.5 w-1.5 rounded-full shrink-0 ${config.dot}`} />
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    <span className={`font-medium ${config.color}`}>{theme.title}: </span>
-                    {theme.summary}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
         <div className="flex gap-4 text-xs text-muted-foreground">
           <span>{brief.total_signals_processed} signals processed</span>
           <span>•</span>
