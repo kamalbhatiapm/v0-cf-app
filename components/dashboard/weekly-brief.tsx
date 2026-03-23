@@ -1,7 +1,7 @@
 "use client";
 
-import { FileText, Download, Share2, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { FileText } from "lucide-react";
+import { useState } from "react";
 
 interface WeeklyBriefData {
   id: string;
@@ -57,49 +57,17 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
 
   return (
     <div className="space-y-6">
-      {/* Header with title and action buttons */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <FileText className="h-6 w-6 text-[rgb(127,200,255)]" />
-            <h1 className="text-3xl font-bold text-foreground">Weekly Digest</h1>
-          </div>
-          {dateRange && <p className="text-muted-foreground text-sm">{dateRange}</p>}
+      {/* Header - title only, no buttons */}
+      <div>
+        <div className="flex items-center gap-2 mb-1">
+          <FileText className="h-6 w-6 text-[rgb(127,200,255)]" />
+          <h1 className="text-3xl font-bold text-foreground">Weekly Digest</h1>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2 border-border text-muted-foreground hover:text-foreground"
-          >
-            <Share2 className="h-4 w-4" />
-            Share Brief
-          </Button>
-          {brief.pdf_url && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 border-border text-muted-foreground hover:text-foreground"
-              asChild
-            >
-              <a href={brief.pdf_url} target="_blank" rel="noopener noreferrer">
-                <Download className="h-4 w-4" />
-                Export PDF
-              </a>
-            </Button>
-          )}
-          <Button
-            size="sm"
-            className="gap-2 bg-[rgb(127,200,255)] text-background hover:bg-[rgb(100,180,240)]"
-          >
-            <Zap className="h-4 w-4" />
-            Generate AI Digest
-          </Button>
-        </div>
+        {dateRange && <p className="text-muted-foreground text-sm">{dateRange}</p>}
       </div>
 
       {/* Key Takeaway Section */}
-      <div className="border-l-4 border-[rgb(127,200,255)] bg-[#1a2332] p-5 rounded-r-lg">
+      <div className="border-l-4 border-l-[rgb(127,200,255)] border border-border bg-card p-5 rounded-r-lg">
         <p className="text-xs font-semibold tracking-widest text-[rgb(127,200,255)] mb-3 uppercase">
           Key Takeaway
         </p>
@@ -134,7 +102,7 @@ function ThemeBriefCard({ theme }: { theme: any }) {
   const config = getSignalConfig(theme.signal_type);
 
   return (
-    <div className="border border-border bg-[#1a2332] p-5 rounded-lg space-y-3">
+    <div className="border border-border bg-card p-5 rounded-xl space-y-3 hover:border-[rgb(127,200,255)]/30 transition-colors">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
