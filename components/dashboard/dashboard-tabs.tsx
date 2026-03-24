@@ -51,7 +51,7 @@ function getWeekLabel(week: number, year: number) {
   const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
   const fmt = (d: Date) =>
     d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  return `Week ${week} · ${fmt(weekStart)}–${fmt(weekEnd)}`;
+  return `${fmt(weekStart)}–${fmt(weekEnd)}`;
 }
 
 type Tab = "themes" | "brief";
@@ -97,7 +97,7 @@ export function DashboardTabs({
 
   const selectedLabel = isCurrentWeek
     ? currentWeek && currentYear
-      ? `Week ${currentWeek} (Current)`
+      ? `${getWeekLabel(currentWeek, currentYear)} (Current)`
       : "Current Week"
     : (() => {
         const parts = selectedWeek.split("-");
