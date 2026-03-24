@@ -21,7 +21,7 @@ export default function SignUpPage() {
 
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signUp({
+    const { error, data } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -41,9 +41,24 @@ export default function SignUpPage() {
       return;
     }
 
-    console.log("[v0] Signup successful, redirecting to success page");
-
-    router.push("/auth/sign-up-success");
+    console.log("[v0] Signup successful");
+    
+    // Auto-confirm user and redirect to dashboard
+    if (data.user) {
+      // Sign in the user immediately
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (signInError) {
+        console.log("[v0] Auto sign-in error:", signInError.message);
+        router.push("/auth/sign-up-success");
+      } else {
+        console.log("[v0] Auto sign-in successful, redirecting to dashboard");
+        router.push("/dashboard");
+      }
+    }
   }
 
   return (
