@@ -36,9 +36,12 @@ export default function SignUpPage() {
     setLoading(false);
 
     if (error) {
+      console.log("[v0] Signup error:", error.message);
       setError(error.message);
       return;
     }
+
+    console.log("[v0] Signup successful, redirecting to success page");
 
     router.push("/auth/sign-up-success");
   }
