@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { SignalStats } from "@/components/dashboard/signal-stats";
-import { ThemesList } from "@/components/dashboard/themes-list";
 import { WeeklyBrief } from "@/components/dashboard/weekly-brief";
 import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
 
@@ -29,15 +28,30 @@ async function getSignalData() {
     .limit(1)
     .single();
 
+  // Fetch all available weeks from themes table for the picker
+  const { data: availableWeeks } = await supabase
+    .from("themes")
+    .select("week_number, year")
+    .order("year", { ascending: false })
+    .order("week_number", { ascending: false });
+
+  // Deduplicate weeks
+  const uniqueWeeks = Array.from(
+    new Map(
+      (availableWeeks || []).map((w) => [`${w.year}-${w.week_number}`, w])
+    ).values()
+  );
+
   return {
     themes: currentThemes || [],
     pipelineRun: latestRun,
     weeklyBrief: latestBrief,
+    availableWeeks: uniqueWeeks,
   };
 }
 
 export default async function DashboardPage() {
-  const { themes, pipelineRun, weeklyBrief } = await getSignalData();
+  const { themes, pipelineRun, weeklyBrief, availableWeeks } = await getSignalData();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -51,7 +65,13 @@ export default async function DashboardPage() {
           year={pipelineRun?.year}
         />
         <SignalStats pipelineRun={pipelineRun} />
-        <DashboardTabs themes={themes} weeklyBrief={weeklyBrief} />
+        <DashboardTabs
+          themes={themes}
+          weeklyBrief={weeklyBrief}
+          availableWeeks={availableWeeks}
+          currentWeek={pipelineRun?.week_number}
+          currentYear={pipelineRun?.year}
+        />
       </div>
     </div>
   );
