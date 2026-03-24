@@ -79,21 +79,31 @@ export function DashboardTabs({
       setThemes(initialThemes);
       return;
     }
-    const [year, week] = selectedWeek.split("-");
+    const parts = selectedWeek.split("-");
+    const year = parts[0];
+    const week = parts[1];
     setLoading(true);
     fetch(`/api/themes?week=${week}&year=${year}`)
       .then((r) => r.json())
-      .then((data) => setThemes(data.themes || []))
+      .then((data) => {
+        console.log("[v0] Fetched themes for week:", week, "year:", year, "count:", data.themes?.length);
+        setThemes(data.themes || []);
+      })
+      .catch((err) => {
+        console.log("[v0] Error fetching themes:", err);
+      })
       .finally(() => setLoading(false));
-  }, [selectedWeek]);
+  }, [selectedWeek, initialThemes, isCurrentWeek]);
 
   const selectedLabel = isCurrentWeek
     ? currentWeek && currentYear
       ? `Week ${currentWeek} (Current)`
       : "Current Week"
     : (() => {
-        const [y, w] = selectedWeek.split("-");
-        return getWeekLabel(parseInt(w), parseInt(y));
+        const parts = selectedWeek.split("-");
+        const year = parseInt(parts[0]);
+        const week = parseInt(parts[1]);
+        return getWeekLabel(week, year);
       })();
 
   return (
