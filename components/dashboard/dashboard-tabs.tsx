@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { ThemesList } from "@/components/dashboard/themes-list";
 import { WeeklyBrief } from "@/components/dashboard/weekly-brief";
@@ -70,6 +70,19 @@ export function DashboardTabs({
   const [themes, setThemes] = useState<Theme[]>(initialThemes);
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownOpen]);
 
   const isCurrentWeek =
     selectedWeek === `${currentYear}-${currentWeek}` || selectedWeek === "";
@@ -135,7 +148,7 @@ export function DashboardTabs({
 
         {/* Week picker */}
         {availableWeeks.length > 0 && (
-          <div className="relative mb-[-1px]">
+          <div className="relative mb-[-1px]" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen((o) => !o)}
               className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:border-[rgb(127,200,255)]/50 transition-colors"
