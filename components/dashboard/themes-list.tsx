@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TrendingUp, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 interface Theme {
   id: string;
@@ -20,21 +20,14 @@ interface ThemesListProps {
   themes: Theme[];
 }
 
-const FILTER_TABS = ["All Themes", "Breakout", "Rising", "Emerging", "Stable", "Declining"];
+const FILTER_TABS = ["All Themes", "ACT", "WATCH"];
 
 function getSignalConfig(type: string) {
   switch (type?.toLowerCase()) {
-    case "emerging":
-      return { dot: "bg-cyan-400", label: "EMERGING", pts: "+4pts", color: "text-cyan-400" };
-    case "rising":
-      return { dot: "bg-[rgb(127,200,255)]", label: "RISING", pts: "+7pts", color: "text-[rgb(127,200,255)]" };
-    case "breakout":
-    case "breaking":
-      return { dot: "bg-orange-400", label: "BREAKOUT", pts: "+15pts", color: "text-orange-400" };
-    case "stable":
-      return { dot: "bg-gray-400", label: "STABLE", pts: "0pts", color: "text-gray-400" };
-    case "declining":
-      return { dot: "bg-red-400", label: "DECLINING", pts: "-3pts", color: "text-red-400" };
+    case "act":
+      return { dot: "bg-orange-400", label: "ACT", pts: "", color: "text-orange-400" };
+    case "watch":
+      return { dot: "bg-[rgb(127,200,255)]", label: "WATCH", pts: "", color: "text-[rgb(127,200,255)]" };
     default:
       return { dot: "bg-[rgb(127,200,255)]", label: type?.toUpperCase() ?? "UNKNOWN", pts: "", color: "text-[rgb(127,200,255)]" };
   }
@@ -66,13 +59,9 @@ function ThemeCard({ theme }: { theme: Theme }) {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <span className={`h-2 w-2 rounded-full ${config.dot}`} />
-            <span className="text-xs font-semibold tracking-wider text-muted-foreground">
+            <span className={`text-xs font-semibold tracking-wider ${config.color}`}>
               {config.label}
             </span>
-          </div>
-          <div className="flex items-center gap-1 text-xs text-orange-400 font-medium">
-            <TrendingUp className="h-3 w-3" />
-            <span>{config.pts}</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -163,10 +152,7 @@ export function ThemesList({ themes }: ThemesListProps) {
 
   const filtered = themes.filter((t) => {
     if (activeFilter === "All Themes") return true;
-    const type = t.signal_type?.toLowerCase();
-    const filter = activeFilter.toLowerCase();
-    if (filter === "breakout") return type === "breakout" || type === "breaking";
-    return type === filter;
+    return t.signal_type?.toLowerCase() === activeFilter.toLowerCase();
   });
 
   return (

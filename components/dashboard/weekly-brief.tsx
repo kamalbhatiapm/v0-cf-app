@@ -24,17 +24,10 @@ interface WeeklyBriefProps {
 
 function getSignalConfig(type: string) {
   switch (type?.toLowerCase()) {
-    case "emerging":
-      return { dot: "bg-cyan-400", label: "EMERGING", color: "text-cyan-400" };
-    case "rising":
-      return { dot: "bg-[rgb(127,200,255)]", label: "RISING", color: "text-[rgb(127,200,255)]" };
-    case "breakout":
-    case "breaking":
-      return { dot: "bg-orange-400", label: "BREAKOUT", color: "text-orange-400" };
-    case "stable":
-      return { dot: "bg-gray-400", label: "STABLE", color: "text-gray-400" };
-    case "declining":
-      return { dot: "bg-red-400", label: "DECLINING", color: "text-red-400" };
+    case "act":
+      return { dot: "bg-orange-400", label: "ACT", color: "text-orange-400" };
+    case "watch":
+      return { dot: "bg-[rgb(127,200,255)]", label: "WATCH", color: "text-[rgb(127,200,255)]" };
     default:
       return { dot: "bg-[rgb(127,200,255)]", label: type?.toUpperCase() ?? "UNKNOWN", color: "text-[rgb(127,200,255)]" };
   }
