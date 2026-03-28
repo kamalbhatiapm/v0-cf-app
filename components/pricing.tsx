@@ -3,20 +3,6 @@ import { Check } from "lucide-react";
 
 const tiers = [
   {
-    name: "Starter",
-    price: "Free",
-    period: "for 7 days",
-    description: "Try CalmFalcon risk-free.",
-    features: [
-      "Weekly signal digest",
-      "5 theme clusters",
-      "Basic confidence scoring",
-      "Community support",
-    ],
-    cta: "Start Free Trial",
-    highlighted: false,
-  },
-  {
     name: "Individual",
     price: "$250",
     period: "/month",
@@ -33,12 +19,27 @@ const tiers = [
     highlighted: true,
   },
   {
-    name: "Enterprise",
+    name: "Team",
     price: "$199",
     period: "/seat/month",
-    description: "For organizations with advanced needs (3+ teams).",
+    description: "For growing teams (3+ users).",
     features: [
       "Everything in Individual",
+      "Multi-user collaboration",
+      "Team watchlists & alerts",
+      "Advanced permissions",
+      "Shared dashboards",
+      "Team analytics",
+    ],
+    cta: "Get Started",
+    highlighted: false,
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    description: "For organizations with advanced needs.",
+    features: [
+      "Everything in Team",
       "Custom source integration",
       "Private taxonomy tuning",
       "SSO & advanced security",
