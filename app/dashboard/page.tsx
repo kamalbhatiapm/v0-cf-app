@@ -9,9 +9,20 @@ export const dynamic = "force-dynamic";
 async function getSignalData() {
   const supabase = await createClient();
 
+  // Fetch themes directly from themes table for the most recent week with data
+  const { data: latestWeek } = await supabase
+    .from("themes")
+    .select("week_number, year")
+    .order("year", { ascending: false })
+    .order("week_number", { ascending: false })
+    .limit(1)
+    .single();
+
   const { data: currentThemes } = await supabase
-    .from("current_week_themes")
+    .from("themes")
     .select("*")
+    .eq("week_number", latestWeek?.week_number)
+    .eq("year", latestWeek?.year)
     .order("confidence_score", { ascending: false });
 
   const { data: latestRun } = await supabase
@@ -56,11 +67,12 @@ async function getSignalData() {
     pipelineRun: latestRun,
     weeklyBrief: latestBrief,
     availableWeeks: uniqueWeeks,
+    latestWeek,
   };
 }
 
 export default async function DashboardPage() {
-  const { themes, pipelineRun, weeklyBrief, availableWeeks } = await getSignalData();
+  const { themes, pipelineRun, weeklyBrief, availableWeeks, latestWeek } = await getSignalData();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -70,16 +82,16 @@ export default async function DashboardPage() {
 
       <div className="px-6 py-8 max-w-[1400px] mx-auto">
         <DashboardHeader
-          weekNumber={pipelineRun?.week_number}
-          year={pipelineRun?.year}
+          weekNumber={latestWeek?.week_number ?? pipelineRun?.week_number}
+          year={latestWeek?.year ?? pipelineRun?.year}
         />
         <SignalStats pipelineRun={pipelineRun} />
         <DashboardTabs
           themes={themes}
           weeklyBrief={weeklyBrief}
           availableWeeks={availableWeeks}
-          currentWeek={pipelineRun?.week_number}
-          currentYear={pipelineRun?.year}
+          currentWeek={latestWeek?.week_number ?? pipelineRun?.week_number}
+          currentYear={latestWeek?.year ?? pipelineRun?.year}
         />
       </div>
     </div>
