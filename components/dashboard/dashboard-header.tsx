@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+
 interface DashboardHeaderProps {
   weekNumber?: number;
   year?: number;
@@ -33,6 +36,13 @@ export function DashboardHeader({ weekNumber, year }: DashboardHeaderProps) {
 
   return (
     <div className="mb-6">
+      <Link
+        href="/"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        Back to Home
+      </Link>
       <h1 className="text-4xl font-bold tracking-tight text-foreground">
         Signal Intelligence
       </h1>
