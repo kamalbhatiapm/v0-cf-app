@@ -57,7 +57,7 @@ export function Hero() {
         {/* Stats */}
         <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:mt-20">
           {[
-            { value: "5+ hrs", label: "saved per week" },
+            { value: "25+ hrs", label: "saved per week" },
             { value: "10k+", label: "signals processed monthly" },
             { value: "99%", label: "ingestion reliability" },
             { value: "<2s", label: "dashboard load time" },
