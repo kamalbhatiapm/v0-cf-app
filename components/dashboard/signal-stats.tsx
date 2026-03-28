@@ -1,4 +1,4 @@
-import { Activity, Layers, TrendingUp, Circle } from "lucide-react";
+import { Activity, Layers, Circle } from "lucide-react";
 
 interface PipelineRun {
   total_signals_processed?: number;
@@ -28,12 +28,6 @@ export function SignalStats({ pipelineRun }: SignalStatsProps) {
       icon: Layers,
     },
     {
-      label: "Breakout Signals",
-      value: pipelineRun?.breaking_count ?? 0,
-      delta: `↑ ${pipelineRun?.rising_count ?? 0}`,
-      icon: TrendingUp,
-    },
-    {
       label: "Confidence Avg",
       value: `${pipelineRun?.avg_confidence ?? 0}%`,
       delta: null,
@@ -42,7 +36,7 @@ export function SignalStats({ pipelineRun }: SignalStatsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
       {stats.map((stat) => (
         <div
           key={stat.label}
