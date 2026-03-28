@@ -16,7 +16,7 @@ const tiers = [
       "Priority support",
     ],
     cta: "Subscribe Now",
-    highlighted: true,
+    highlighted: false,
   },
   {
     name: "Team",
@@ -32,7 +32,7 @@ const tiers = [
       "Team analytics",
     ],
     cta: "Get Started",
-    highlighted: false,
+    highlighted: true,
   },
   {
     name: "Enterprise",
