@@ -9,8 +9,10 @@ function getWeekDateRange(weekNumber: number, year: number) {
   // Create a date for January 4th of the given year (always in week 1)
   const jan4 = new Date(year, 0, 4);
   // Get the Monday of the week containing January 4th
+  // Calculate days to subtract: if Sunday (0), subtract 6; otherwise subtract (dayOfWeek - 1)
+  const daysToMonday = jan4.getDay() === 0 ? 6 : jan4.getDay() - 1;
   const weekOneMonday = new Date(jan4);
-  weekOneMonday.setDate(jan4.getDate() - jan4.getDay() + 1);
+  weekOneMonday.setDate(jan4.getDate() - daysToMonday);
   
   // Calculate the Monday of the requested week
   const weekStart = new Date(weekOneMonday);
