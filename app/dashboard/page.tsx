@@ -28,19 +28,28 @@ async function getSignalData() {
     .limit(1)
     .single();
 
-  // Fetch all available weeks from themes table for the picker
-  const { data: availableWeeks } = await supabase
-    .from("themes")
-    .select("week_number, year")
-    .order("year", { ascending: false })
-    .order("week_number", { ascending: false });
+  // Generate available weeks (current week + 3 previous weeks)
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  // Calculate current ISO week number
+  const jan4 = new Date(currentYear, 0, 4);
+  const daysToMonday = jan4.getDay() === 0 ? 6 : jan4.getDay() - 1;
+  const weekOneMonday = new Date(jan4);
+  weekOneMonday.setDate(jan4.getDate() - daysToMonday);
+  const daysSinceWeekOne = Math.floor((currentDate.getTime() - weekOneMonday.getTime()) / 86400000);
+  const currentWeek = Math.floor(daysSinceWeekOne / 7) + 1;
 
-  // Deduplicate weeks
-  const uniqueWeeks = Array.from(
-    new Map(
-      (availableWeeks || []).map((w) => [`${w.year}-${w.week_number}`, w])
-    ).values()
-  );
+  // Generate last 4 weeks
+  const uniqueWeeks: { week_number: number; year: number }[] = [];
+  for (let i = 0; i < 4; i++) {
+    let weekNum = currentWeek - i;
+    let year = currentYear;
+    if (weekNum <= 0) {
+      year = currentYear - 1;
+      weekNum = 52 + weekNum;
+    }
+    uniqueWeeks.push({ week_number: weekNum, year });
+  }
 
   return {
     themes: currentThemes || [],
