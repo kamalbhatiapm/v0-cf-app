@@ -17,8 +17,8 @@ const tiers = [
     highlighted: false,
   },
   {
-    name: "Professional",
-    price: "$39",
+    name: "Individual",
+    price: "$250",
     period: "/month",
     description: "For platform teams making critical decisions.",
     features: [
@@ -34,10 +34,11 @@ const tiers = [
   },
   {
     name: "Enterprise",
-    price: "Custom",
-    description: "For organizations with advanced needs.",
+    price: "$199",
+    period: "/seat/month",
+    description: "For organizations with advanced needs (3+ teams).",
     features: [
-      "Everything in Professional",
+      "Everything in Individual",
       "Custom source integration",
       "Private taxonomy tuning",
       "SSO & advanced security",
