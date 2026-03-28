@@ -1,30 +1,38 @@
 import {
-  BarChart3,
-  Sparkles,
+  Search,
+  Lightbulb,
   ShieldCheck,
+  BookOpen,
 } from "lucide-react";
 
 const features = [
   {
-    name: "Analysis Agent",
+    name: "Theme Selector",
     description:
-      "Combines classification, scoring, and clustering into one unified agent. Categorizes signals by domain, computes confidence metrics, and groups related signals into cohesive themes for executive briefing.",
-    icon: BarChart3,
-    tag: "Core Intelligence",
+      "Scans and categorizes incoming signals by domain and relevance. Identifies which signals deserve attention and groups related signals together for deeper analysis.",
+    icon: Search,
+    tag: "Discovery",
   },
   {
-    name: "Insight Generation Agent",
+    name: "Theme Writer",
     description:
-      "Generates citation-backed summaries with 'Why it matters' explanations, platform implications, and watchlist recommendations. Turns raw signals into actionable intelligence.",
-    icon: Sparkles,
+      "Crafts compelling narratives from selected themes. Generates citation-backed summaries with 'Why it matters' and platform implications that turn data into actionable insights.",
+    icon: Lightbulb,
     tag: "Narrative",
   },
   {
-    name: "Verification Agent",
+    name: "Theme Verifier",
     description:
-      "Protects credibility by checking citation backing, confidence justification, and signal sufficiency. Prevents hallucination and hype amplification.",
+      "Protects credibility by validating citations, confidence justification, and signal sufficiency. Prevents hallucination and ensures only verified intelligence makes it through.",
     icon: ShieldCheck,
     tag: "Trust Layer",
+  },
+  {
+    name: "Weekly Brief Writer",
+    description:
+      "Synthesizes the week's verified themes into executive-ready briefs. Highlights key trends, emerging risks, and strategic opportunities for leadership decision-making.",
+    icon: BookOpen,
+    tag: "Executive Summary",
   },
 ];
 
@@ -37,7 +45,7 @@ export function Features() {
             Agentic Intelligence
           </h2>
           <p className="mt-2 text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Three agents working in concert
+            Four agents working in concert
           </p>
           <p className="mt-4 text-pretty text-lg text-muted-foreground">
             Our multi-agent architecture transforms raw ecosystem noise into 
@@ -45,7 +53,7 @@ export function Features() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
             <div
               key={feature.name}
