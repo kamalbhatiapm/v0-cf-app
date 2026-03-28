@@ -9,9 +9,20 @@ export const dynamic = "force-dynamic";
 async function getSignalData() {
   const supabase = await createClient();
 
+  // Fetch themes directly from themes table for the most recent week with data
+  const { data: latestWeek } = await supabase
+    .from("themes")
+    .select("week_number, year")
+    .order("year", { ascending: false })
+    .order("week_number", { ascending: false })
+    .limit(1)
+    .single();
+
   const { data: currentThemes } = await supabase
-    .from("current_week_themes")
+    .from("themes")
     .select("*")
+    .eq("week_number", latestWeek?.week_number)
+    .eq("year", latestWeek?.year)
     .order("confidence_score", { ascending: false });
 
   const { data: latestRun } = await supabase
@@ -28,30 +39,40 @@ async function getSignalData() {
     .limit(1)
     .single();
 
-  // Fetch all available weeks from themes table for the picker
-  const { data: availableWeeks } = await supabase
-    .from("themes")
-    .select("week_number, year")
-    .order("year", { ascending: false })
-    .order("week_number", { ascending: false });
+  // Generate available weeks (current week + 3 previous weeks)
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  // Calculate current ISO week number
+  const jan4 = new Date(currentYear, 0, 4);
+  const daysToMonday = jan4.getDay() === 0 ? 6 : jan4.getDay() - 1;
+  const weekOneMonday = new Date(jan4);
+  weekOneMonday.setDate(jan4.getDate() - daysToMonday);
+  const daysSinceWeekOne = Math.floor((currentDate.getTime() - weekOneMonday.getTime()) / 86400000);
+  const currentWeek = Math.floor(daysSinceWeekOne / 7) + 1;
 
-  // Deduplicate weeks
-  const uniqueWeeks = Array.from(
-    new Map(
-      (availableWeeks || []).map((w) => [`${w.year}-${w.week_number}`, w])
-    ).values()
-  );
+  // Generate last 4 weeks
+  const uniqueWeeks: { week_number: number; year: number }[] = [];
+  for (let i = 0; i < 4; i++) {
+    let weekNum = currentWeek - i;
+    let year = currentYear;
+    if (weekNum <= 0) {
+      year = currentYear - 1;
+      weekNum = 52 + weekNum;
+    }
+    uniqueWeeks.push({ week_number: weekNum, year });
+  }
 
   return {
     themes: currentThemes || [],
     pipelineRun: latestRun,
     weeklyBrief: latestBrief,
     availableWeeks: uniqueWeeks,
+    latestWeek,
   };
 }
 
 export default async function DashboardPage() {
-  const { themes, pipelineRun, weeklyBrief, availableWeeks } = await getSignalData();
+  const { themes, pipelineRun, weeklyBrief, availableWeeks, latestWeek } = await getSignalData();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -61,16 +82,16 @@ export default async function DashboardPage() {
 
       <div className="px-6 py-8 max-w-[1400px] mx-auto">
         <DashboardHeader
-          weekNumber={pipelineRun?.week_number}
-          year={pipelineRun?.year}
+          weekNumber={latestWeek?.week_number ?? pipelineRun?.week_number}
+          year={latestWeek?.year ?? pipelineRun?.year}
         />
         <SignalStats pipelineRun={pipelineRun} />
         <DashboardTabs
           themes={themes}
           weeklyBrief={weeklyBrief}
           availableWeeks={availableWeeks}
-          currentWeek={pipelineRun?.week_number}
-          currentYear={pipelineRun?.year}
+          currentWeek={latestWeek?.week_number ?? pipelineRun?.week_number}
+          currentYear={latestWeek?.year ?? pipelineRun?.year}
         />
       </div>
     </div>

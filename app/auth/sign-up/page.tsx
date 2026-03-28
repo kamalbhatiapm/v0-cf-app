@@ -21,13 +21,11 @@ export default function SignUpPage() {
 
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signUp({
+    const { error, data } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo:
-          process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ||
-          `${window.location.origin}/dashboard`,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
           full_name: fullName,
           company: company,
@@ -38,11 +36,29 @@ export default function SignUpPage() {
     setLoading(false);
 
     if (error) {
+      console.log("[v0] Signup error:", error.message);
       setError(error.message);
       return;
     }
 
-    router.push("/auth/sign-up-success");
+    console.log("[v0] Signup successful");
+    
+    // Auto-confirm user and redirect to dashboard
+    if (data.user) {
+      // Sign in the user immediately
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (signInError) {
+        console.log("[v0] Auto sign-in error:", signInError.message);
+        router.push("/auth/sign-up-success");
+      } else {
+        console.log("[v0] Auto sign-in successful, redirecting to dashboard");
+        router.push("/dashboard");
+      }
+    }
   }
 
   return (

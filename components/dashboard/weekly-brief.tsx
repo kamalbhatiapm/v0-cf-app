@@ -24,17 +24,10 @@ interface WeeklyBriefProps {
 
 function getSignalConfig(type: string) {
   switch (type?.toLowerCase()) {
-    case "emerging":
-      return { dot: "bg-cyan-400", label: "EMERGING", color: "text-cyan-400" };
-    case "rising":
-      return { dot: "bg-[rgb(127,200,255)]", label: "RISING", color: "text-[rgb(127,200,255)]" };
-    case "breakout":
-    case "breaking":
-      return { dot: "bg-orange-400", label: "BREAKOUT", color: "text-orange-400" };
-    case "stable":
-      return { dot: "bg-gray-400", label: "STABLE", color: "text-gray-400" };
-    case "declining":
-      return { dot: "bg-red-400", label: "DECLINING", color: "text-red-400" };
+    case "act":
+      return { dot: "bg-orange-400", label: "ACT", color: "text-orange-400" };
+    case "watch":
+      return { dot: "bg-[rgb(127,200,255)]", label: "WATCH", color: "text-[rgb(127,200,255)]" };
     default:
       return { dot: "bg-[rgb(127,200,255)]", label: type?.toUpperCase() ?? "UNKNOWN", color: "text-[rgb(127,200,255)]" };
   }
@@ -165,10 +158,21 @@ function ThemeBriefCard({ theme }: { theme: any }) {
 }
 
 function getWeekDateRange(weekNumber: number, year: number) {
-  const jan1 = new Date(year, 0, 1);
-  const daysOffset = (weekNumber - 1) * 7;
-  const weekStart = new Date(jan1.getTime() + daysOffset * 86400000);
-  const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
+  // Create a date for January 4th of the given year (always in week 1)
+  const jan4 = new Date(year, 0, 4);
+  // Get the Monday of the week containing January 4th
+  const daysToMonday = jan4.getDay() === 0 ? 6 : jan4.getDay() - 1;
+  const weekOneMonday = new Date(jan4);
+  weekOneMonday.setDate(jan4.getDate() - daysToMonday);
+  
+  // Calculate the Monday of the requested week
+  const weekStart = new Date(weekOneMonday);
+  weekStart.setDate(weekOneMonday.getDate() + (weekNumber - 1) * 7);
+  
+  // Calculate the Sunday of the requested week
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+  
   const fmt = (d: Date) =>
     d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   return `${fmt(weekStart)}–${fmt(weekEnd)}, ${year}`;
