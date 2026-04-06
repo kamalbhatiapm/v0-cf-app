@@ -244,7 +244,7 @@ function ThemeBriefCard({ theme }: { theme: any }) {
       {/* Why It Matters */}
       {theme.why_it_matters && (
         <div>
-          <p className="text-xs font-semibold tracking-widest text-muted-foreground mb-1 uppercase">
+          <p className="text-xs font-semibold tracking-widest text-[rgb(127,200,255)] mb-1 uppercase">
             Why It Matters
           </p>
           <p className="text-sm text-muted-foreground">{theme.why_it_matters}</p>
@@ -254,7 +254,7 @@ function ThemeBriefCard({ theme }: { theme: any }) {
       {/* Platform Implications */}
       {theme.what_you_can_do && (
         <div>
-          <p className="text-xs font-semibold tracking-widest text-muted-foreground mb-1 uppercase">
+          <p className="text-xs font-semibold tracking-widest text-[rgb(127,200,255)] mb-1 uppercase">
             Platform Implications
           </p>
           <p className="text-sm text-muted-foreground">{theme.what_you_can_do}</p>
