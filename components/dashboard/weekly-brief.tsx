@@ -72,12 +72,12 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
           <p style="font-size:13px;color:#aaa;line-height:1.6;margin:0 0 12px 0;">${theme.summary || ''}</p>
           ${theme.why_it_matters ? `
             <div style="margin-bottom:10px;">
-              <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#666;text-transform:uppercase;margin:0 0 4px 0;">Why It Matters</p>
+              <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:rgb(127,200,255);text-transform:uppercase;margin:0 0 4px 0;">Why It Matters</p>
               <p style="font-size:13px;color:#aaa;margin:0;">${theme.why_it_matters}</p>
             </div>` : ''}
           ${theme.what_you_can_do ? `
             <div style="margin-bottom:10px;">
-              <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#666;text-transform:uppercase;margin:0 0 4px 0;">Platform Implications</p>
+              <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:rgb(127,200,255);text-transform:uppercase;margin:0 0 4px 0;">Platform Implications</p>
               <p style="font-size:13px;color:#aaa;margin:0;">${theme.what_you_can_do}</p>
             </div>` : ''}
           <div style="font-size:11px;color:#555;border-top:1px solid #2a2a2a;padding-top:10px;margin-top:10px;">
