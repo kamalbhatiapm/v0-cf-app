@@ -37,43 +37,101 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
   const handleDownload = () => {
     if (!brief) return;
 
-    // Create a text-based brief content
-    const dateRange = brief.week_number && brief.year 
+    const dateRange = brief.week_number && brief.year
       ? `Week of ${getWeekDateRange(brief.week_number, brief.year)}`
       : '';
-    
-    const briefContent = `
-WEEKLY BRIEF
-${dateRange}
 
-KEY TAKEAWAY
-${brief.key_takeaway || brief.content?.slice(0, 300) || ''}
+    const keyTakeaway = brief.key_takeaway || brief.content
+      ?.split("\n\n")
+      .filter((p: string) => !p.startsWith("#") && !p.startsWith("*") && !p.startsWith("---") && p.trim().length > 0)
+      [0] || '';
 
-STATISTICS
-- Signals Processed: ${brief.total_signals_processed}
-- Clusters Generated: ${brief.total_themes}
+    const themesHtml = themes.slice(0, 4).map((theme) => {
+      const isAct = theme.signal_type?.toLowerCase() === 'act';
+      const signalColor = isAct ? '#fb923c' : 'rgb(127,200,255)';
+      const label = theme.signal_type?.toUpperCase() ?? '';
+      const confidencePct = `${theme.confidence_score}%`;
 
-TOP THEMES THIS WEEK
-${themes.slice(0, 4).map((theme, idx) => `
-${idx + 1}. ${theme.title}
-   Signal Type: ${theme.signal_type}
-   Confidence: ${theme.confidence_score}%
-   
-   Summary: ${theme.summary}
-   
-   ${theme.why_it_matters ? `Why It Matters: ${theme.why_it_matters}` : ''}
-   ${theme.what_you_can_do ? `Platform Implications: ${theme.what_you_can_do}` : ''}
-`).join('')}
+      return `
+        <div style="border:1px solid #3a3a3a;background:#1a1a1a;border-radius:12px;padding:20px;margin-bottom:16px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <div style="width:8px;height:8px;border-radius:50%;background:${signalColor};"></div>
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:${signalColor};">${label}</span>
+              </div>
+              <h3 style="font-size:16px;font-weight:600;color:#f9f9f9;margin:0;">${theme.title}</h3>
+            </div>
+            <div style="text-align:right;min-width:60px;">
+              <div style="font-size:13px;font-weight:600;color:#f9f9f9;">${confidencePct}</div>
+              <div style="height:4px;width:56px;background:#2a2a2a;border-radius:2px;margin-top:4px;">
+                <div style="height:4px;width:${confidencePct};background:${signalColor};border-radius:2px;"></div>
+              </div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:#aaa;line-height:1.6;margin:0 0 12px 0;">${theme.summary || ''}</p>
+          ${theme.why_it_matters ? `
+            <div style="margin-bottom:10px;">
+              <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#666;text-transform:uppercase;margin:0 0 4px 0;">Why It Matters</p>
+              <p style="font-size:13px;color:#aaa;margin:0;">${theme.why_it_matters}</p>
+            </div>` : ''}
+          ${theme.what_you_can_do ? `
+            <div style="margin-bottom:10px;">
+              <p style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:#666;text-transform:uppercase;margin:0 0 4px 0;">Platform Implications</p>
+              <p style="font-size:13px;color:#aaa;margin:0;">${theme.what_you_can_do}</p>
+            </div>` : ''}
+          <div style="font-size:11px;color:#555;border-top:1px solid #2a2a2a;padding-top:10px;margin-top:10px;">
+            Based on ${theme.signal_count} supporting signal${theme.signal_count !== 1 ? 's' : ''}
+          </div>
+        </div>`;
+    }).join('');
 
-Generated: ${new Date(brief.generated_at).toLocaleString('en-US')}
-    `.trim();
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weekly Brief — ${dateRange}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Geist', system-ui, sans-serif; background: #141414; color: #f9f9f9; padding: 48px; max-width: 860px; margin: 0 auto; }
+    @media print { body { padding: 32px; } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgb(127,200,255)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <h1 style="font-size:28px;font-weight:700;color:#f9f9f9;">Weekly Brief</h1>
+    </div>
+    <span style="font-size:12px;color:#666;">Generated ${new Date(brief.generated_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+  </div>
+  <p style="font-size:13px;color:#7f8ea0;margin-bottom:32px;">${dateRange}</p>
 
-    // Create a blob and download
-    const blob = new Blob([briefContent], { type: 'text/plain' });
+  <!-- Key Takeaway -->
+  <div style="border-left:4px solid rgb(127,200,255);border:1px solid #2a2a2a;border-left:4px solid rgb(127,200,255);background:#1a1a1a;padding:20px 24px;border-radius:0 10px 10px 0;margin-bottom:32px;">
+    <p style="font-size:10px;font-weight:700;letter-spacing:0.12em;color:rgb(127,200,255);text-transform:uppercase;margin-bottom:10px;">Key Takeaway</p>
+    <p style="font-size:14px;color:#f9f9f9;line-height:1.7;margin-bottom:14px;">${keyTakeaway}</p>
+    <div style="display:flex;gap:16px;font-size:12px;color:#666;">
+      <span>${brief.total_signals_processed} signals processed</span>
+      <span>•</span>
+      <span>${brief.total_themes} clusters generated</span>
+    </div>
+  </div>
+
+  <!-- Themes -->
+  <h2 style="font-size:18px;font-weight:600;color:#f9f9f9;margin-bottom:16px;">Top Themes This Week</h2>
+  ${themesHtml}
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `weekly-brief-week-${brief.week_number}-${brief.year}.txt`;
+    link.download = `weekly-brief-week-${brief.week_number}-${brief.year}.html`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
