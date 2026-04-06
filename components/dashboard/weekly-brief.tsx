@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText } from "lucide-react";
+import { FileText, Download } from "lucide-react";
 import { useState } from "react";
 
 interface WeeklyBriefData {
@@ -34,6 +34,52 @@ function getSignalConfig(type: string) {
 }
 
 export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
+  const handleDownload = () => {
+    if (!brief) return;
+
+    // Create a text-based brief content
+    const dateRange = brief.week_number && brief.year 
+      ? `Week of ${getWeekDateRange(brief.week_number, brief.year)}`
+      : '';
+    
+    const briefContent = `
+WEEKLY BRIEF
+${dateRange}
+
+KEY TAKEAWAY
+${brief.key_takeaway || brief.content?.slice(0, 300) || ''}
+
+STATISTICS
+- Signals Processed: ${brief.total_signals_processed}
+- Clusters Generated: ${brief.total_themes}
+
+TOP THEMES THIS WEEK
+${themes.slice(0, 4).map((theme, idx) => `
+${idx + 1}. ${theme.title}
+   Signal Type: ${theme.signal_type}
+   Confidence: ${theme.confidence_score}%
+   
+   Summary: ${theme.summary}
+   
+   ${theme.why_it_matters ? `Why It Matters: ${theme.why_it_matters}` : ''}
+   ${theme.what_you_can_do ? `Platform Implications: ${theme.what_you_can_do}` : ''}
+`).join('')}
+
+Generated: ${new Date(brief.generated_at).toLocaleString('en-US')}
+    `.trim();
+
+    // Create a blob and download
+    const blob = new Blob([briefContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `weekly-brief-week-${brief.week_number}-${brief.year}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
   if (!brief) {
     return (
       <div className="rounded-xl border border-border bg-card p-6">
@@ -54,13 +100,22 @@ export function WeeklyBrief({ brief, themes = [] }: WeeklyBriefProps) {
 
   return (
     <div className="space-y-6">
-      {/* Header - title only, no buttons */}
-      <div>
-        <div className="flex items-center gap-2 mb-1">
-          <FileText className="h-6 w-6 text-[rgb(127,200,255)]" />
-          <h1 className="text-3xl font-bold text-foreground">Weekly Brief</h1>
+      {/* Header with download button */}
+      <div className="flex items-start justify-between">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <FileText className="h-6 w-6 text-[rgb(127,200,255)]" />
+            <h1 className="text-3xl font-bold text-foreground">Weekly Brief</h1>
+          </div>
+          {dateRange && <p className="text-muted-foreground text-sm">{dateRange}</p>}
         </div>
-        {dateRange && <p className="text-muted-foreground text-sm">{dateRange}</p>}
+        <button
+          onClick={handleDownload}
+          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card hover:bg-accent/10 hover:border-accent transition-colors text-sm font-medium"
+        >
+          <Download className="h-4 w-4" />
+          Download
+        </button>
       </div>
 
       {/* Key Takeaway Section */}
