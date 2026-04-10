@@ -18,8 +18,8 @@ export function CTA() {
               Stop scanning. Start deciding.
             </h2>
             <p className="mt-4 text-pretty text-lg text-muted-foreground">
-              Join platform leaders who save 10+ hours weekly and make better 
-              AI infrastructure decisions with confidence-scored intelligence.
+              Stop spending 10+ hours weekly on manual signal analysis. 
+              Make better AI infrastructure decisions with confidence-scored intelligence.
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
