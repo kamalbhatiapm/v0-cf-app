@@ -32,7 +32,7 @@ export function Hero() {
 
           {/* Subheadline */}
           <p className="mt-6 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            Stop spending 15+ hours weekly scanning GitHub, arXiv, and vendor releases. 
+            Stop spending 10+ hours weekly scanning GitHub, arXiv, and vendor releases. 
             Get structured, confidence-scored intelligence that transforms how you make 
             AI platform decisions.
           </p>
@@ -57,7 +57,7 @@ export function Hero() {
         {/* Stats */}
         <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:mt-20">
           {[
-            { value: "10+ hrs", label: "saved per week" },
+            { value: "15+ hrs", label: "saved per week" },
             { value: "1000+", label: "signals processed monthly" },
             { value: "99%", label: "ingestion reliability" },
             { value: "<2s", label: "dashboard load time" },
