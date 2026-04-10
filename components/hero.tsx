@@ -32,7 +32,7 @@ export function Hero() {
 
           {/* Subheadline */}
           <p className="mt-6 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            Stop spending 10+ hours weekly scanning GitHub, arXiv, and vendor releases. 
+            Stop spending 15+ hours weekly scanning GitHub, arXiv, and vendor releases. 
             Get structured, confidence-scored intelligence that transforms how you make 
             AI platform decisions.
           </p>
