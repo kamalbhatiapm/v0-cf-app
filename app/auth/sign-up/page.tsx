@@ -21,10 +21,11 @@ export default function SignUpPage() {
 
     const supabase = createClient();
 
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
           full_name: fullName,
           company: company,
@@ -32,26 +33,15 @@ export default function SignUpPage() {
       },
     });
 
-    if (signUpError) {
-      setLoading(false);
-      setError(signUpError.message);
-      return;
-    }
-
-    // Auto sign-in immediately after signup
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
     setLoading(false);
 
-    if (signInError) {
-      setError(signInError.message);
+    if (error) {
+      setError(error.message);
       return;
     }
 
-    router.push("/dashboard");
+    // Redirect to success page - user needs to confirm email
+    router.push("/auth/sign-up-success");
   }
 
   return (
