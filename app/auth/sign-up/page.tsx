@@ -36,29 +36,12 @@ export default function SignUpPage() {
     setLoading(false);
 
     if (error) {
-      console.log("[v0] Signup error:", error.message);
       setError(error.message);
       return;
     }
 
-    console.log("[v0] Signup successful");
-    
-    // Auto-confirm user and redirect to dashboard
-    if (data.user) {
-      // Sign in the user immediately
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
-      if (signInError) {
-        console.log("[v0] Auto sign-in error:", signInError.message);
-        router.push("/auth/sign-up-success");
-      } else {
-        console.log("[v0] Auto sign-in successful, redirecting to dashboard");
-        router.push("/dashboard");
-      }
-    }
+    // Redirect to success page - user needs to confirm email
+    router.push("/auth/sign-up-success");
   }
 
   return (
