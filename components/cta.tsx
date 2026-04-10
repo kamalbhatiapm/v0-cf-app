@@ -18,7 +18,7 @@ export function CTA() {
               Stop scanning. Start deciding.
             </h2>
             <p className="mt-4 text-pretty text-lg text-muted-foreground">
-              Stop spending 10+ hours weekly on manual signal analysis. 
+              Stop spending 15+ hours weekly on manual signal analysis. 
               Make better AI infrastructure decisions with confidence-scored intelligence.
             </p>
 
