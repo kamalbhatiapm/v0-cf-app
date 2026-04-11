@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { ScrollAnimate } from "@/components/scroll-animate";
 
 const tiers = [
   {
@@ -17,7 +18,6 @@ const tiers = [
     ],
     cta: "Subscribe Now",
     highlighted: false,
-    delay: "delay-100",
   },
   {
     name: "Team",
@@ -34,7 +34,6 @@ const tiers = [
     ],
     cta: "Get Started",
     highlighted: true,
-    delay: "delay-200",
   },
   {
     name: "Enterprise",
@@ -50,7 +49,6 @@ const tiers = [
     ],
     cta: "Contact Sales",
     highlighted: false,
-    delay: "delay-300",
   },
 ];
 
@@ -58,7 +56,7 @@ export function Pricing() {
   return (
     <section id="pricing" className="border-t border-border bg-card/50 py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <ScrollAnimate animation="fade-up" className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             Pricing
           </h2>
@@ -69,18 +67,22 @@ export function Pricing() {
             Start free, scale as you grow. All plans include our core 
             multi-agent intelligence pipeline.
           </p>
-        </div>
+        </ScrollAnimate>
 
         <div className="mx-auto mt-16 grid max-w-5xl gap-8 lg:grid-cols-3">
-          {tiers.map((tier) => (
-            <div
+          {tiers.map((tier, i) => (
+            <ScrollAnimate
               key={tier.name}
-              className={`relative flex flex-col rounded-xl border p-8 transition-all hover:-translate-y-1 ${tier.delay} ${
-                tier.highlighted
-                  ? "border-accent bg-background shadow-lg shadow-accent/10 hover:shadow-xl hover:shadow-accent/15"
-                  : "border-border bg-background hover:border-accent/50"
-              }`}
+              animation="scale-in"
+              delay={i * 120}
             >
+              <div
+                className={`relative flex h-full flex-col rounded-xl border p-8 transition-all hover:-translate-y-1 ${
+                  tier.highlighted
+                    ? "border-accent bg-background shadow-lg shadow-accent/10 hover:shadow-xl hover:shadow-accent/15"
+                    : "border-border bg-background hover:border-accent/50"
+                }`}
+              >
               {tier.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                   <span className="rounded-full bg-accent px-4 py-1 text-xs font-semibold text-accent-foreground">
@@ -115,7 +117,8 @@ export function Pricing() {
               >
                 {tier.cta}
               </Button>
-            </div>
+              </div>
+            </ScrollAnimate>
           ))}
         </div>
       </div>
