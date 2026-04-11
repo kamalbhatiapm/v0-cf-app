@@ -1,8 +1,5 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const tiers = [
   {
@@ -20,6 +17,7 @@ const tiers = [
     ],
     cta: "Subscribe Now",
     highlighted: false,
+    delay: "delay-100",
   },
   {
     name: "Team",
@@ -36,6 +34,7 @@ const tiers = [
     ],
     cta: "Get Started",
     highlighted: true,
+    delay: "delay-200",
   },
   {
     name: "Enterprise",
@@ -51,22 +50,15 @@ const tiers = [
     ],
     cta: "Contact Sales",
     highlighted: false,
+    delay: "delay-300",
   },
 ];
 
 export function Pricing() {
-  const { ref: headingRef, isVisible: headingVisible } = useScrollAnimation();
-  const { ref: tiersRef, isVisible: tiersVisible } = useScrollAnimation(0.05);
-
   return (
     <section id="pricing" className="border-t border-border bg-card/50 py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div
-          ref={headingRef as React.RefObject<HTMLDivElement>}
-          className={`mx-auto max-w-2xl text-center transition-all duration-700 ease-out ${
-            headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             Pricing
           </h2>
@@ -79,18 +71,15 @@ export function Pricing() {
           </p>
         </div>
 
-        <div ref={tiersRef as React.RefObject<HTMLDivElement>} className="mx-auto mt-16 grid max-w-5xl gap-8 lg:grid-cols-3">
-          {tiers.map((tier, i) => (
+        <div className="mx-auto mt-16 grid max-w-5xl gap-8 lg:grid-cols-3">
+          {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`relative flex flex-col rounded-xl border p-8 transition-all duration-500 ease-out ${
-                tiersVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              } ${
+              className={`relative flex flex-col rounded-xl border p-8 transition-all hover:-translate-y-1 ${tier.delay} ${
                 tier.highlighted
-                  ? "border-accent bg-background shadow-lg shadow-accent/10"
-                  : "border-border bg-background"
+                  ? "border-accent bg-background shadow-lg shadow-accent/10 hover:shadow-xl hover:shadow-accent/15"
+                  : "border-border bg-background hover:border-accent/50"
               }`}
-              style={{ transitionDelay: tiersVisible ? `${i * 120}ms` : "0ms" }}
             >
               {tier.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">

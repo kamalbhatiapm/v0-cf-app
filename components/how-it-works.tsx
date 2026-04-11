@@ -1,7 +1,4 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const steps = [
   {
@@ -10,6 +7,7 @@ const steps = [
     description:
       "We continuously collect data from GitHub repos, arXiv papers, vendor release notes, and pricing changes. All signals are normalized and stored.",
     sources: ["GitHub Trending", "arXiv Abstracts", "Vendor Releases", "Pricing Updates"],
+    delay: "delay-100",
   },
   {
     step: "02",
@@ -17,6 +15,7 @@ const steps = [
     description:
       "Each signal is classified by domain and type, then scored on velocity, cross-source corroboration, credibility, and platform impact potential.",
     metrics: ["Velocity Score", "Breadth Index", "Confidence Band", "Impact Rating"],
+    delay: "delay-200",
   },
   {
     step: "03",
@@ -24,6 +23,7 @@ const steps = [
     description:
       "Related signals are grouped into 5-7 actionable themes. Each cluster comes with supporting evidence and week-over-week delta analysis.",
     outputs: ["Theme Clusters", "Delta Reports", "Trend Analysis", "Watchlist Items"],
+    delay: "delay-300",
   },
   {
     step: "04",
@@ -31,22 +31,15 @@ const steps = [
     description:
       'Citation-backed summaries explain "Why it matters to AI platform strategy" with confidence indicators and recommended actions.',
     deliverables: ["Weekly Digest", "Shareable Briefs", "Action Items", "Risk Flags"],
+    delay: "delay-400",
   },
 ];
 
 export function HowItWorks() {
-  const { ref: headingRef, isVisible: headingVisible } = useScrollAnimation();
-  const { ref: stepsRef, isVisible: stepsVisible } = useScrollAnimation(0.05);
-
   return (
     <section id="how-it-works" className="border-t border-border bg-card/50 py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div
-          ref={headingRef as React.RefObject<HTMLDivElement>}
-          className={`mx-auto max-w-2xl text-center transition-all duration-700 ease-out ${
-            headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             How It Works
           </h2>
@@ -59,15 +52,12 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <div ref={stepsRef as React.RefObject<HTMLDivElement>} className="mx-auto mt-16 max-w-5xl">
+        <div className="mx-auto mt-16 max-w-5xl">
           <div className="grid gap-8 lg:grid-cols-2">
             {steps.map((step, index) => (
               <div
                 key={step.step}
-                className={`relative rounded-xl border border-border bg-background p-8 transition-all duration-500 ease-out ${
-                  stepsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
-                style={{ transitionDelay: stepsVisible ? `${index * 120}ms` : "0ms" }}
+                className={`relative rounded-xl border border-border bg-background p-8 transition-all hover:border-accent/50 hover:-translate-y-1 ${step.delay}`}
               >
                 {/* Step number */}
                 <div className="mb-6 flex items-center gap-4">
@@ -90,7 +80,7 @@ export function HowItWorks() {
                     (item) => (
                       <span
                         key={item}
-                        className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground"
+                        className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground hover:text-accent transition-colors"
                       >
                         {item}
                       </span>

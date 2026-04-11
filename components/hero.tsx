@@ -1,13 +1,7 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 export function Hero() {
-  const { ref: heroRef, isVisible: heroVisible } = useScrollAnimation(0.1);
-  const { ref: statsRef, isVisible: statsVisible } = useScrollAnimation(0.1);
-
   return (
     <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
       {/* LangChain-style radial glow */}
@@ -18,12 +12,7 @@ export function Hero() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div
-          ref={heroRef as React.RefObject<HTMLDivElement>}
-          className={`mx-auto max-w-3xl text-center transition-all duration-700 ease-out ${
-            heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className="mx-auto max-w-3xl text-center animate-fade-up">
           {/* Badge */}
           <div className="mb-8 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm text-muted-foreground">
@@ -33,20 +22,20 @@ export function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+          <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl animate-fade-up delay-100">
             Clear Signals.{" "}
             <span className="text-accent">Faster Decisions.</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="mt-6 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
+          <p className="mt-6 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl animate-fade-up delay-200">
             Stop spending 15+ hours weekly scanning GitHub, arXiv, and vendor releases. 
             Get structured, confidence-scored intelligence that transforms how you make 
             AI platform decisions.
           </p>
 
           {/* CTA Buttons */}
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-up delay-300">
             <Button size="lg" className="gap-2">
               Start Free Trial
               <ArrowRight className="h-4 w-4" />
@@ -57,28 +46,22 @@ export function Hero() {
           </div>
 
           {/* Social proof */}
-          <p className="mt-10 text-sm text-muted-foreground">
+          <p className="mt-10 text-sm text-muted-foreground animate-fade-in delay-400">
             Trusted by AI platform teams at leading enterprises
           </p>
         </div>
 
         {/* Stats */}
-        <div
-          ref={statsRef as React.RefObject<HTMLDivElement>}
-          className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:mt-20"
-        >
+        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:mt-20">
           {[
-            { value: "15+ hrs", label: "saved per week" },
-            { value: "1000+", label: "signals processed monthly" },
-            { value: "99%", label: "ingestion reliability" },
-            { value: "<2s", label: "dashboard load time" },
-          ].map((stat, i) => (
+            { value: "15+ hrs", label: "saved per week", delay: "delay-300" },
+            { value: "1000+", label: "signals processed monthly", delay: "delay-400" },
+            { value: "99%", label: "ingestion reliability", delay: "delay-500" },
+            { value: "<2s", label: "dashboard load time", delay: "delay-500" },
+          ].map((stat) => (
             <div
               key={stat.label}
-              className={`rounded-lg border border-border bg-card p-6 text-center transition-all duration-500 ease-out ${
-                statsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              }`}
-              style={{ transitionDelay: statsVisible ? `${i * 100}ms` : "0ms" }}
+              className={`rounded-lg border border-border bg-card p-6 text-center animate-scale-in ${stat.delay} hover:border-accent/50 hover:bg-card/80 transition-colors`}
             >
               <div className="text-2xl font-bold text-foreground sm:text-3xl">
                 {stat.value}

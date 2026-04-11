@@ -5,7 +5,7 @@ export function CTA() {
   return (
     <section className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-16">
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-16 transition-all hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5">
           {/* LangChain-style glow */}
           <div className="absolute inset-0 -z-10 overflow-hidden rounded-2xl">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[700px] rounded-full bg-[rgb(127,200,255)] opacity-[0.07] blur-[100px]" />

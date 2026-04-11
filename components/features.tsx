@@ -1,12 +1,9 @@
-"use client";
-
 import {
   Search,
   Lightbulb,
   ShieldCheck,
   BookOpen,
 } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const features = [
   {
@@ -15,6 +12,7 @@ const features = [
       "Scans and categorizes incoming signals by domain and relevance. Identifies which signals deserve attention and groups related signals together for deeper analysis.",
     icon: Search,
     tag: "Discovery",
+    delay: "delay-100",
   },
   {
     name: "Theme Writer",
@@ -22,6 +20,7 @@ const features = [
       "Crafts compelling narratives from selected themes. Generates citation-backed summaries with 'Why it matters' and platform implications that turn data into actionable insights.",
     icon: Lightbulb,
     tag: "Narrative",
+    delay: "delay-200",
   },
   {
     name: "Theme Verifier",
@@ -29,6 +28,7 @@ const features = [
       "Protects credibility by validating citations, confidence justification, and signal sufficiency. Prevents hallucination and ensures only verified intelligence makes it through.",
     icon: ShieldCheck,
     tag: "Trust Layer",
+    delay: "delay-300",
   },
   {
     name: "Weekly Brief Writer",
@@ -36,22 +36,15 @@ const features = [
       "Synthesizes the week's verified themes into executive-ready briefs. Highlights key trends, emerging risks, and strategic opportunities for leadership decision-making.",
     icon: BookOpen,
     tag: "Executive Summary",
+    delay: "delay-400",
   },
 ];
 
 export function Features() {
-  const { ref: headingRef, isVisible: headingVisible } = useScrollAnimation();
-  const { ref: cardsRef, isVisible: cardsVisible } = useScrollAnimation(0.05);
-
   return (
     <section id="features" className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div
-          ref={headingRef as React.RefObject<HTMLDivElement>}
-          className={`mx-auto max-w-2xl text-center transition-all duration-700 ease-out ${
-            headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             Agentic Intelligence
           </h2>
@@ -64,20 +57,14 @@ export function Features() {
           </p>
         </div>
 
-        <div
-          ref={cardsRef as React.RefObject<HTMLDivElement>}
-          className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {features.map((feature, i) => (
+        <div className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature) => (
             <div
               key={feature.name}
-              className={`group relative rounded-xl border border-border bg-card p-6 transition-all duration-500 ease-out hover:border-accent/50 hover:bg-card/80 ${
-                cardsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: cardsVisible ? `${i * 100}ms` : "0ms" }}
+              className={`group relative rounded-xl border border-border bg-card p-6 transition-all hover:border-accent/50 hover:bg-card/80 hover:-translate-y-1 ${feature.delay}`}
             >
               <div className="mb-4 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent group-hover:scale-110 transition-transform">
                   <feature.icon className="h-5 w-5" />
                 </div>
                 <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
