@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function useScrollAnimation(threshold = 0.15) {
+export function useScrollAnimation(threshold = 0.05) {
   const ref = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Respect prefers-reduced-motion
+    // Respect prefers-reduced-motion — show immediately
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
       setIsVisible(true);
@@ -15,20 +15,30 @@ export function useScrollAnimation(threshold = 0.15) {
     }
 
     const el = ref.current;
-    if (!el) return;
+    if (!el) {
+      setIsVisible(true);
+      return;
+    }
+
+    // Fallback: ensure element is never permanently invisible
+    const fallback = setTimeout(() => setIsVisible(true), 1000);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          clearTimeout(fallback);
           observer.unobserve(el);
         }
       },
-      { threshold }
+      { threshold, rootMargin: "0px 0px -50px 0px" }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(fallback);
+      observer.disconnect();
+    };
   }, [threshold]);
 
   return { ref, isVisible };
