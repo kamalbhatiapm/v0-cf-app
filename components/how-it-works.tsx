@@ -86,6 +86,7 @@ export function HowItWorks() {
                     )
                   )}
                 </div>
+                </div>
               </ScrollAnimate>
             ))}
           </div>
