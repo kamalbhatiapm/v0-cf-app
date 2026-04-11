@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { ScrollAnimate } from "@/components/scroll-animate";
 
 const steps = [
   {
@@ -35,7 +36,7 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="border-t border-border bg-card/50 py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <ScrollAnimate animation="fade-up" className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             How It Works
           </h2>
@@ -46,15 +47,17 @@ export function HowItWorks() {
             Our pipeline transforms fragmented signals into structured insights 
             you can trust and act on.
           </p>
-        </div>
+        </ScrollAnimate>
 
         <div className="mx-auto mt-16 max-w-5xl">
           <div className="grid gap-8 lg:grid-cols-2">
             {steps.map((step, index) => (
-              <div
+              <ScrollAnimate
                 key={step.step}
-                className="relative rounded-xl border border-border bg-background p-8"
+                animation="fade-up"
+                delay={index * 120}
               >
+                <div className="relative h-full rounded-xl border border-border bg-background p-8 transition-all hover:border-accent/50 hover:-translate-y-1">
                 {/* Step number */}
                 <div className="mb-6 flex items-center gap-4">
                   <span className="text-4xl font-bold text-accent/30">
@@ -76,14 +79,15 @@ export function HowItWorks() {
                     (item) => (
                       <span
                         key={item}
-                        className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground"
+                        className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground hover:text-accent transition-colors"
                       >
                         {item}
                       </span>
                     )
                   )}
                 </div>
-              </div>
+                </div>
+              </ScrollAnimate>
             ))}
           </div>
         </div>
