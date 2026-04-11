@@ -1,5 +1,8 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const tiers = [
   {
@@ -52,10 +55,18 @@ const tiers = [
 ];
 
 export function Pricing() {
+  const { ref: headingRef, isVisible: headingVisible } = useScrollAnimation();
+  const { ref: tiersRef, isVisible: tiersVisible } = useScrollAnimation(0.05);
+
   return (
     <section id="pricing" className="border-t border-border bg-card/50 py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <div
+          ref={headingRef as React.RefObject<HTMLDivElement>}
+          className={`mx-auto max-w-2xl text-center transition-all duration-700 ease-out ${
+            headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             Pricing
           </h2>
@@ -68,15 +79,18 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl gap-8 lg:grid-cols-3">
-          {tiers.map((tier) => (
+        <div ref={tiersRef as React.RefObject<HTMLDivElement>} className="mx-auto mt-16 grid max-w-5xl gap-8 lg:grid-cols-3">
+          {tiers.map((tier, i) => (
             <div
               key={tier.name}
-              className={`relative flex flex-col rounded-xl border p-8 ${
+              className={`relative flex flex-col rounded-xl border p-8 transition-all duration-500 ease-out ${
+                tiersVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              } ${
                 tier.highlighted
                   ? "border-accent bg-background shadow-lg shadow-accent/10"
                   : "border-border bg-background"
               }`}
+              style={{ transitionDelay: tiersVisible ? `${i * 120}ms` : "0ms" }}
             >
               {tier.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">

@@ -1,4 +1,7 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const steps = [
   {
@@ -32,10 +35,18 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const { ref: headingRef, isVisible: headingVisible } = useScrollAnimation();
+  const { ref: stepsRef, isVisible: stepsVisible } = useScrollAnimation(0.05);
+
   return (
     <section id="how-it-works" className="border-t border-border bg-card/50 py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <div
+          ref={headingRef as React.RefObject<HTMLDivElement>}
+          className={`mx-auto max-w-2xl text-center transition-all duration-700 ease-out ${
+            headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             How It Works
           </h2>
@@ -48,12 +59,15 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 max-w-5xl">
+        <div ref={stepsRef as React.RefObject<HTMLDivElement>} className="mx-auto mt-16 max-w-5xl">
           <div className="grid gap-8 lg:grid-cols-2">
             {steps.map((step, index) => (
               <div
                 key={step.step}
-                className="relative rounded-xl border border-border bg-background p-8"
+                className={`relative rounded-xl border border-border bg-background p-8 transition-all duration-500 ease-out ${
+                  stepsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: stepsVisible ? `${index * 120}ms` : "0ms" }}
               >
                 {/* Step number */}
                 <div className="mb-6 flex items-center gap-4">

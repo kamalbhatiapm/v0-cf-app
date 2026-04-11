@@ -1,21 +1,29 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 export function Hero() {
+  const { ref: heroRef, isVisible: heroVisible } = useScrollAnimation(0.1);
+  const { ref: statsRef, isVisible: statsVisible } = useScrollAnimation(0.1);
+
   return (
     <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
       {/* LangChain-style radial glow */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* Primary large glow bloom — centered top */}
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full bg-[rgb(127,200,255)] opacity-[0.08] blur-[120px]" />
-        {/* Secondary tighter glow for depth */}
         <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-[300px] w-[500px] rounded-full bg-[rgb(127,200,255)] opacity-[0.06] blur-[80px]" />
-        {/* Subtle floor fade */}
         <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
+        <div
+          ref={heroRef as React.RefObject<HTMLDivElement>}
+          className={`mx-auto max-w-3xl text-center transition-all duration-700 ease-out ${
+            heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           {/* Badge */}
           <div className="mb-8 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm text-muted-foreground">
@@ -55,16 +63,22 @@ export function Hero() {
         </div>
 
         {/* Stats */}
-        <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:mt-20">
+        <div
+          ref={statsRef as React.RefObject<HTMLDivElement>}
+          className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:mt-20"
+        >
           {[
             { value: "15+ hrs", label: "saved per week" },
             { value: "1000+", label: "signals processed monthly" },
             { value: "99%", label: "ingestion reliability" },
             { value: "<2s", label: "dashboard load time" },
-          ].map((stat) => (
+          ].map((stat, i) => (
             <div
               key={stat.label}
-              className="rounded-lg border border-border bg-card p-6 text-center"
+              className={`rounded-lg border border-border bg-card p-6 text-center transition-all duration-500 ease-out ${
+                statsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: statsVisible ? `${i * 100}ms` : "0ms" }}
             >
               <div className="text-2xl font-bold text-foreground sm:text-3xl">
                 {stat.value}

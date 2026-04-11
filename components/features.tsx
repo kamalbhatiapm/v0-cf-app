@@ -1,9 +1,12 @@
+"use client";
+
 import {
   Search,
   Lightbulb,
   ShieldCheck,
   BookOpen,
 } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const features = [
   {
@@ -37,10 +40,18 @@ const features = [
 ];
 
 export function Features() {
+  const { ref: headingRef, isVisible: headingVisible } = useScrollAnimation();
+  const { ref: cardsRef, isVisible: cardsVisible } = useScrollAnimation(0.05);
+
   return (
     <section id="features" className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <div
+          ref={headingRef as React.RefObject<HTMLDivElement>}
+          className={`mx-auto max-w-2xl text-center transition-all duration-700 ease-out ${
+            headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
             Agentic Intelligence
           </h2>
@@ -53,11 +64,17 @@ export function Features() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature) => (
+        <div
+          ref={cardsRef as React.RefObject<HTMLDivElement>}
+          className="mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {features.map((feature, i) => (
             <div
               key={feature.name}
-              className="group relative rounded-xl border border-border bg-card p-6 transition-all hover:border-accent/50 hover:bg-card/80"
+              className={`group relative rounded-xl border border-border bg-card p-6 transition-all duration-500 ease-out hover:border-accent/50 hover:bg-card/80 ${
+                cardsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: cardsVisible ? `${i * 100}ms` : "0ms" }}
             >
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
