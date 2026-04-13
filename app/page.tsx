@@ -16,8 +16,8 @@ export default function HomePage() {
         <Features />
         <HowItWorks />
         <UseCases />
-        <CTA />
         <Pricing />
+        <CTA />
       </main>
       <Footer />
     </div>
