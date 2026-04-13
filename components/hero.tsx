@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap } from "lucide-react";
+import { useAuthState } from "@/hooks/use-auth-state";
 
 export function Hero() {
+  const { isLoggedIn } = useAuthState();
+
   return (
     <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
       {/* LangChain-style radial glow */}
@@ -38,8 +43,8 @@ export function Hero() {
           {/* CTA Buttons */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-up delay-300">
             <Button size="lg" className="gap-2" asChild>
-              <Link href="/auth/sign-up">
-                Start Free Trial
+              <Link href={isLoggedIn ? "/dashboard" : "/auth/sign-up"}>
+                {isLoggedIn ? "Go to Dashboard" : "Start Free Trial"}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
