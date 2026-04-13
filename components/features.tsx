@@ -39,7 +39,7 @@ const features = [
 
 export function Features() {
   return (
-    <section id="features" className="py-24 lg:py-32">
+    <section id="features" className="py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <ScrollAnimate animation="fade-up" className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
