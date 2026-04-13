@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap } from "lucide-react";
 import { useAuthState } from "@/hooks/use-auth-state";
+import { CountUp } from "@/components/count-up";
 
 export function Hero() {
   const { isLoggedIn } = useAuthState();
@@ -72,7 +73,7 @@ export function Hero() {
               className={`rounded-lg border border-border bg-card p-6 text-center animate-scale-in ${stat.delay} hover:border-accent/50 hover:bg-card/80 transition-colors`}
             >
               <div className="text-2xl font-bold text-foreground sm:text-3xl">
-                {stat.value}
+                <CountUp value={stat.value} />
               </div>
               <div className="mt-1 text-sm text-muted-foreground">
                 {stat.label}
