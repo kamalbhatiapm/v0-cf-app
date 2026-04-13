@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { ScrollAnimate } from "@/components/scroll-animate";
@@ -25,9 +26,11 @@ export function CTA() {
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button size="lg" className="gap-2">
-                Start Free Trial
-                <ArrowRight className="h-4 w-4" />
+              <Button size="lg" className="gap-2" asChild>
+                <Link href="/auth/sign-up">
+                  Start Free Trial
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
               <Button variant="outline" size="lg">
                 Schedule Demo
