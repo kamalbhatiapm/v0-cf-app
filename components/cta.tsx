@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { ScrollAnimate } from "@/components/scroll-animate";
 
 export function CTA() {
   return (
-    <section className="py-24 lg:py-32">
+    <section className="py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <ScrollAnimate animation="scale-in">
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-16 transition-all hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5">
@@ -25,9 +26,11 @@ export function CTA() {
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button size="lg" className="gap-2">
-                Start Free Trial
-                <ArrowRight className="h-4 w-4" />
+              <Button size="lg" className="gap-2" asChild>
+                <Link href="/auth/sign-up">
+                  Start Free Trial
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
               <Button variant="outline" size="lg">
                 Schedule Demo

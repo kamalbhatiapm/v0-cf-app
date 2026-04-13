@@ -44,7 +44,7 @@ const personas = [
 
 export function UseCases() {
   return (
-    <section id="use-cases" className="py-24 lg:py-32">
+    <section id="use-cases" className="py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-accent">
