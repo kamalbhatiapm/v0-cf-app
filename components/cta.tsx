@@ -4,7 +4,7 @@ import { ScrollAnimate } from "@/components/scroll-animate";
 
 export function CTA() {
   return (
-    <section className="py-24 lg:py-32">
+    <section className="py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <ScrollAnimate animation="scale-in">
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 sm:p-16 transition-all hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5">
