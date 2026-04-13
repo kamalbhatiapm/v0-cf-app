@@ -67,13 +67,13 @@ export function Hero() {
             { value: "1000+", label: "signals processed monthly", delay: "delay-400" },
             { value: "99%", label: "ingestion reliability", delay: "delay-500" },
             { value: "<2s", label: "dashboard load time", delay: "delay-500" },
-          ].map((stat) => (
+          ].map((stat, i) => (
             <div
               key={stat.label}
               className={`rounded-lg border border-border bg-card p-6 text-center animate-scale-in ${stat.delay} hover:border-accent/50 hover:bg-card/80 transition-colors`}
             >
               <div className="text-2xl font-bold text-foreground sm:text-3xl">
-                <CountUp value={stat.value} />
+                {i < 2 ? <CountUp value={stat.value} /> : stat.value}
               </div>
               <div className="mt-1 text-sm text-muted-foreground">
                 {stat.label}
