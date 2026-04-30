@@ -9,14 +9,37 @@ export default function SignUpPage() {
   const [fullName, setFullName] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  function validateEmail(value: string) {
+    if (!value) return "Email is required";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Please enter a valid email address";
+    return null;
+  }
+
+  function validatePassword(value: string) {
+    if (!value) return "Password is required";
+    if (value.length < 8) return "Password must be at least 8 characters";
+    if (!/[A-Z]/.test(value)) return "Password must contain at least one uppercase letter";
+    if (!/[0-9]/.test(value)) return "Password must contain at least one number";
+    return null;
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    const emailErr = validateEmail(email);
+    const passwordErr = validatePassword(password);
+    setEmailError(emailErr);
+    setPasswordError(passwordErr);
+    if (emailErr || passwordErr) return;
+
     setLoading(true);
 
     const supabase = createClient();
@@ -121,11 +144,21 @@ export default function SignUpPage() {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError(validateEmail(e.target.value));
+              }}
               required
-              className="w-full rounded-lg border border-border bg-card px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-[rgb(127,200,255)] focus:outline-none focus:ring-1 focus:ring-[rgb(127,200,255)]"
+              className={`w-full rounded-lg border bg-card px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 transition-colors ${
+                emailError
+                  ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/30"
+                  : "border-border focus:border-[rgb(127,200,255)] focus:ring-[rgb(127,200,255)]"
+              }`}
               placeholder="jane@acme.com"
             />
+            {emailError && (
+              <p className="mt-1.5 text-xs text-red-400">{emailError}</p>
+            )}
           </div>
 
           <div>
@@ -139,12 +172,26 @@ export default function SignUpPage() {
               id="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError(validatePassword(e.target.value));
+              }}
               required
-              minLength={6}
-              className="w-full rounded-lg border border-border bg-card px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:border-[rgb(127,200,255)] focus:outline-none focus:ring-1 focus:ring-[rgb(127,200,255)]"
+              className={`w-full rounded-lg border bg-card px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 transition-colors ${
+                passwordError
+                  ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/30"
+                  : "border-border focus:border-[rgb(127,200,255)] focus:ring-[rgb(127,200,255)]"
+              }`}
               placeholder="••••••••"
             />
+            {passwordError && (
+              <p className="mt-1.5 text-xs text-red-400">{passwordError}</p>
+            )}
+            {!passwordError && (
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                Min. 8 characters, one uppercase letter and one number
+              </p>
+            )}
           </div>
 
           {error && (
