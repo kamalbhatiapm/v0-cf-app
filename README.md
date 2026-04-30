@@ -8,7 +8,7 @@ AI-powered signal intelligence platform that monitors, scores, and synthesizes t
 
 CalmFalcon continuously processes signals from across the AI ecosystem — GitHub releases, arXiv papers, vendor announcements, and top newsletters — and surfaces the themes that matter most. Each week, it produces a structured digest with confidence scores, "why it matters" analysis, and actionable platform implications.
 
-Instead of tracking 50+ raw signals, you get 5 prioritized themes with context.
+Instead of tracking 200+ raw signals, you get 6-8 prioritized themes every week with context.
 
 ---
 
@@ -25,15 +25,13 @@ Instead of tracking 50+ raw signals, you get 5 prioritized themes with context.
 
 ## How It Works
 
-CalmFalcon runs a four-agent pipeline:
+CalmFalcon runs a three-agent pipeline:
 
-1. **Theme Selector** — Scans and categorizes incoming signals by domain and relevance. Identifies which signals deserve attention and groups related signals together for deeper analysis.
+1. **Analysis Agent** — Ingests signals from multiple sources, classifies them by domain (Inference, Agents, Governance), computes velocity and confidence scores, and clusters related signals into cohesive themes.
 
-2. **Theme Writer** — Crafts compelling narratives from selected themes. Generates citation-backed summaries with "Why it matters" and platform implications that turn data into actionable insights.
+2. **Insight Generation Agent** — Produces citation-backed summaries for each theme with "Why It Matters" explanations, platform implications, and watchlist recommendations.
 
-3. **Theme Verifier** — Protects credibility by validating citations, confidence justification, and signal sufficiency. Prevents hallucination and ensures only verified intelligence makes it through.
-
-4. **Weekly Brief Writer** — Synthesizes the week's verified themes into executive-ready briefs. Highlights key trends, emerging risks, and strategic opportunities for leadership decision-making.
+3. **Verification Agent** — Validates citation coverage, checks confidence justification, and prevents hallucination before anything is published.
 
 ---
 
@@ -168,8 +166,11 @@ Built on shadcn/ui with 40+ components including:
 
 | Type | Description |
 |---|---|
-| **ACT** | Immediate action required — breaking changes, security vulnerabilities, or critical infrastructure shifts that impact your platform now |
-| **WATCH** | Monitor closely — emerging trends, experimental technologies, or competitive moves that may affect your roadmap in the coming weeks |
+| **Breakout** | New signal with rapid early adoption and high velocity |
+| **Accelerating** | Established signal gaining momentum across multiple sources |
+| **Rising** | Emerging signal showing consistent upward trend |
+| **Stable** | Mature signal with steady, predictable activity |
+| **Cooling** | Previously active signal showing declining interest |
 
 ---
 
