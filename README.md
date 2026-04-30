@@ -45,41 +45,6 @@ CalmFalcon runs a three-agent pipeline:
 
 ---
 
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Data Sources                             │
-│   GitHub · arXiv · Vendor Releases · Newsletters · RSS Feeds    │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      Analysis Agent                             │
-│   Classification · Scoring · Clustering · Theme Generation      │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  Insight Generation Agent                       │
-│   Summaries · Why It Matters · What You Can Do · Citations      │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Verification Agent                           │
-│   Citation Check · Confidence Validation · Hallucination Guard  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      Weekly Brief                               │
-│   Key Takeaway · Themed Clusters · Confidence Scores · Sources  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
----
-
 ## Tech Stack
 
 | Layer | Technology |
@@ -90,6 +55,110 @@ CalmFalcon runs a three-agent pipeline:
 | Database | Supabase (PostgreSQL) |
 | Auth | Supabase Auth |
 | Deployment | Vercel |
+
+---
+
+## Frontend Architecture
+
+### Project Structure
+
+```
+├── app/                          # Next.js App Router
+│   ├── layout.tsx                # Root layout with providers
+│   ├── page.tsx                  # Landing page (marketing)
+│   ├── auth/                     # Authentication pages
+│   │   ├── login/page.tsx        # Login form
+│   │   ├── sign-up/page.tsx      # Registration form
+│   │   ├── sign-up-success/      # Email confirmation page
+│   │   ├── callback/route.ts     # OAuth callback handler
+│   │   └── error/page.tsx        # Auth error display
+│   ├── dashboard/page.tsx        # Main app dashboard
+│   └── api/                      # API routes
+│       └── themes/route.ts       # Themes data endpoint
+│
+├── components/                   # React components
+│   ├── ui/                       # shadcn/ui primitives (40+ components)
+│   ├── dashboard/                # Dashboard-specific components
+│   │   ├── dashboard-header.tsx
+│   │   ├── dashboard-tabs.tsx
+│   │   ├── signal-stats.tsx
+│   │   ├── themes-list.tsx
+│   │   └── weekly-brief.tsx
+│   ├── hero.tsx                  # Landing page hero section
+│   ├── features.tsx              # Features section
+│   ├── pricing.tsx               # Pricing cards
+│   ├── cta.tsx                   # Call-to-action section
+│   ├── header.tsx                # Global navigation
+│   ├── footer.tsx                # Global footer
+│   ├── scroll-animate.tsx        # Scroll-triggered animations
+│   └── count-up.tsx              # Number animation component
+│
+├── hooks/                        # Custom React hooks
+│   ├── use-auth-state.ts         # Supabase auth state
+│   ├── use-mobile.ts             # Responsive breakpoint detection
+│   └── use-toast.ts              # Toast notifications
+│
+├── lib/                          # Utility libraries
+│   ├── supabase/
+│   │   ├── client.ts             # Browser Supabase client
+│   │   ├── server.ts             # Server Supabase client
+│   │   └── middleware.ts         # Auth middleware helpers
+│   └── utils.ts                  # Shared utilities (cn, etc.)
+│
+└── middleware.ts                 # Next.js middleware (auth guards)
+```
+
+### Component Architecture
+
+**Composition Pattern**
+- Components are split by responsibility: layout, UI primitives, feature-specific
+- Landing page sections are self-contained with their own data and styling
+- Dashboard components receive data via props from the page level
+
+**Styling Approach**
+- Tailwind CSS v4 with CSS variables for theming
+- Design tokens defined in `globals.css` for consistent colors, spacing, radii
+- Dark mode by default with semantic color tokens (`--foreground`, `--background`, etc.)
+
+**State Management**
+- Server Components for static content (landing pages)
+- Client Components for interactivity (forms, animations, auth state)
+- Supabase client for auth state via `useAuthState` hook
+- No global state library — component-local state with React hooks
+
+### Authentication Flow
+
+```
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│   Sign Up    │────▶│   Supabase   │────▶│  Dashboard   │
+│    Form      │     │     Auth     │     │   Redirect   │
+└──────────────┘     └──────────────┘     └──────────────┘
+       │                    │
+       ▼                    ▼
+┌──────────────┐     ┌──────────────┐
+│  Validation  │     │  Middleware  │
+│  (client)    │     │  (server)    │
+└──────────────┘     └──────────────┘
+```
+
+- **Client-side validation** — Email format, password strength (8+ chars, uppercase, number)
+- **Supabase Auth** — Handles user creation, session management, tokens
+- **Middleware** — Protects `/dashboard` routes, redirects unauthenticated users
+
+### Animation System
+
+- `ScrollAnimate` component wraps sections for viewport-triggered animations
+- `CountUp` component animates numeric values on scroll
+- CSS keyframes defined in `globals.css` (`fade-up`, `scale-in`, `slide-left`)
+- Respects `prefers-reduced-motion` for accessibility
+
+### UI Component Library
+
+Built on shadcn/ui with 40+ components including:
+- Form controls: Button, Input, Select, Checkbox, Radio, Switch
+- Layout: Card, Dialog, Sheet, Drawer, Tabs, Accordion
+- Feedback: Toast, Alert, Skeleton, Spinner, Progress
+- Navigation: Navigation Menu, Dropdown, Command Palette
 
 ---
 
